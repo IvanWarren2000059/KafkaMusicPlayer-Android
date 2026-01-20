@@ -20,7 +20,7 @@
         android:gravity="center_vertical"
         android:background="@drawable/kafka_playlist_item_bg">
 
-        <!-- Playlist Icon with elegant background -->
+        <!-- Folder Icon with elegant background -->
         <androidx.cardview.widget.CardView
             android:layout_width="52dp"
             android:layout_height="52dp"
@@ -31,7 +31,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_playlist"
+                android:src="@drawable/ic_folder"
                 android:tint="@color/kafka_thread_light"
                 android:padding="12dp"
                 android:scaleType="fitCenter"/>
@@ -45,10 +45,10 @@
             android:layout_marginStart="16dp">
 
             <TextView
-                android:id="@+id/playlistName"
+                android:id="@+id/folderName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Playlist Name"
+                android:text="Folder Name"
                 android:textColor="@color/kafka_text_primary"
                 android:textSize="17sp"
                 android:textStyle="bold"
@@ -57,7 +57,7 @@
                 android:fontFamily="sans-serif-medium"/>
 
             <TextView
-                android:id="@+id/songCount"
+                android:id="@+id/folderSongCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0 songs"

@@ -1,92 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- SIMPLIFIED VERSION FOR TESTING - Replace your current kafka_widget.xml with this -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:background="@drawable/widget_background">
+    android:background="#992D1028"
+    android:padding="16dp">
 
+    <!-- Header -->
     <TextView
         android:id="@+id/widgetTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Kafka Music Player"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
+        android:text="KAFKA'S PLAYER"
+        android:textColor="#FD79A8"
+        android:textSize="13sp"
         android:textStyle="bold"
         android:gravity="center"
         android:paddingBottom="8dp"/>
 
-    <TextView
-        android:id="@+id/widgetSongTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="No song playing"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:singleLine="true"
-        android:ellipsize="marquee"
-        android:gravity="center"/>
-
-    <TextView
-        android:id="@+id/widgetArtist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Unknown Artist"
-        android:textColor="#CCCCCC"
-        android:textSize="12sp"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:paddingBottom="8dp"/>
-
+    <!-- Kafka and Song Info -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center_vertical">
 
-        <!-- Shuffle Button (NEW) -->
+        <!-- Animated Kafka chibi -->
+        <FrameLayout
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="12dp">
+            
+            <ImageView
+                android:id="@+id/widgetKafkaIdle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/kafka_idle"
+                android:scaleType="fitCenter"
+                android:visibility="visible"/>
+            
+            <ImageView
+                android:id="@+id/widgetKafkaPlaying"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/kafka_playing"
+                android:scaleType="fitCenter"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widgetSongTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select a song..."
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/widgetArtist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Unknown Artist"
+                android:textColor="#B0A8C8"
+                android:textSize="13sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Playback Controls -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="12dp">
+
         <ImageButton
             android:id="@+id/widgetShuffleBtn"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
             android:src="@drawable/ic_shuffle"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="Shuffle"
             android:scaleType="fitCenter"
-            android:layout_marginRight="4dp"/>
+            android:padding="8dp"/>
 
         <ImageButton
             android:id="@+id/widgetPrevBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="8dp"
             android:src="@drawable/ic_previous"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="Previous"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter"
+            android:padding="10dp"/>
 
         <ImageButton
             android:id="@+id/widgetPlayPauseBtn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:src="@drawable/ic_play"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="Play/Pause"
             android:scaleType="fitCenter"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"/>
+            android:padding="12dp"/>
 
         <ImageButton
             android:id="@+id/widgetNextBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/ic_next"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="Next"
-            android:scaleType="fitCenter"/>
-
+            android:scaleType="fitCenter"
+            android:padding="10dp"/>
     </LinearLayout>
 
 </LinearLayout>

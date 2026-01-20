@@ -5,20 +5,34 @@
     android:viewportWidth="100"
     android:viewportHeight="100">
     
-    <!-- Background -->
+    <!-- Background gradient -->
     <path
-        android:fillColor="#2D1654"
+        android:fillColor="#2D1624"
         android:pathData="M0,0 L100,0 L100,100 L0,100 Z"/>
     
-    <!-- Music note design -->
+    <!-- Gradient overlay -->
     <path
-        android:fillColor="#C490E4"
+        android:fillColor="#664A2838"
+        android:pathData="M0,0 L100,0 L100,100 L0,100 Z"/>
+    
+    <!-- Music note with Kafka's colors -->
+    <path
+        android:fillColor="#B8638F"
         android:pathData="M40,25 L45,25 L45,55 C45,60 42,63 37.5,63 C33,63 30,60 30,55 C30,50 33,47 37.5,47 C39,47 40.5,47.5 42,48.5 L42,32 L60,28 L60,48 C60,53 57,56 52.5,56 C48,56 45,53 45,48 C45,43 48,40 52.5,40 C54,40 55.5,40.5 57,41.5 L57,25 L45,28 L45,25 Z"/>
     
-    <!-- Decorative circle -->
+    <!-- Decorative circle with thread color -->
     <path
-        android:fillColor="#9D7DBD"
+        android:fillColor="#E84A93"
+        android:fillAlpha="0.3"
         android:pathData="M50,50 m-8,0 a8,8 0,1,1 16,0 a8,8 0,1,1 -16,0"
         android:strokeWidth="2"
-        android:strokeColor="#E8D4F8"/>
+        android:strokeColor="#FD79A8"/>
+    
+    <!-- Sparkle effects -->
+    <path
+        android:fillColor="#FFCCE5"
+        android:pathData="M70,30 L71,32 L73,33 L71,34 L70,36 L69,34 L67,33 L69,32 Z"/>
+    <path
+        android:fillColor="#FF6BA8"
+        android:pathData="M25,65 L26,66.5 L27.5,67 L26,67.5 L25,69 L24,67.5 L22.5,67 L24,66.5 Z"/>
 </vector>

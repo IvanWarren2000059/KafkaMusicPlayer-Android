@@ -5,81 +5,166 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
     
-    <!-- Background Circle -->
+    <!-- Elegant gradient background -->
     <path
-        android:fillColor="#2D1B3D"
-        android:pathData="M54,54 m-50,0 a50,50 0,1,1 100,0 a50,50 0,1,1 -100,0"/>
+        android:fillColor="#120410"
+        android:pathData="M0,0 L108,0 L108,108 L0,108 Z"/>
     
-    <!-- Outer glow -->
+    <!-- Radial glow effect -->
     <path
-        android:fillColor="#4A2C5E"
-        android:pathData="M54,54 m-44,0 a44,44 0,1,1 88,0 a44,44 0,1,1 -88,0"/>
+        android:fillColor="#664A1F3D"
+        android:pathData="M54,54 m-48,0 a48,48 0,1,1 96,0 a48,48 0,1,1 -96,0"/>
     
-    <!-- Face base -->
     <path
-        android:fillColor="#F5D5EF"
-        android:pathData="M54,40 C44,40 36,48 36,58 C36,68 44,76 54,76 C64,76 72,68 72,58 C72,48 64,40 54,40 Z"/>
+        android:fillColor="#443D1F35"
+        android:pathData="M54,54 m-42,0 a42,42 0,1,1 84,0 a42,42 0,1,1 -84,0"/>
     
-    <!-- Hair - left side -->
+    <!-- Chibi Kafka - Face base with soft skin tone -->
     <path
-        android:fillColor="#8B3A7C"
-        android:pathData="M40,38 C38,35 36,32 35,30 L32,32 C33,35 35,38 37,40 C38,39 39,38.5 40,38 Z"/>
+        android:fillColor="#FFE8DC"
+        android:pathData="M54,36 C45,36 38,43 38,52 C38,61 45,68 54,68 C63,68 70,61 70,52 C70,43 63,36 54,36 Z"/>
     
-    <!-- Hair - right side -->
+    <!-- Hair - Deep wine purple, Kafka's signature color -->
+    <!-- Left long strand -->
     <path
-        android:fillColor="#8B3A7C"
-        android:pathData="M68,38 C70,35 72,32 73,30 L76,32 C75,35 73,38 71,40 C70,39 69,38.5 68,38 Z"/>
+        android:fillColor="#3D1A2E"
+        android:pathData="M37,40 C35,37 33,34 32,31 L29,33 C30,36 33,39 36,42 C36.5,41 37,40.5 37,40 Z"/>
     
-    <!-- Hair top -->
+    <!-- Right long strand -->
     <path
-        android:fillColor="#8B3A7C"
-        android:pathData="M54,28 C48,28 42,30 38,34 C38,38 40,42 44,44 C48,38 52,35 54,35 C56,35 60,38 64,44 C68,42 70,38 70,34 C66,30 60,28 54,28 Z"/>
+        android:fillColor="#3D1A2E"
+        android:pathData="M71,40 C73,37 75,34 76,31 L79,33 C78,36 75,39 72,42 C71.5,41 71,40.5 71,40 Z"/>
     
-    <!-- Left eye -->
+    <!-- Main hair top with elegant styling -->
     <path
-        android:fillColor="#2D1B3D"
-        android:pathData="M46,54 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"/>
+        android:fillColor="#3D1A2E"
+        android:pathData="M54,26 C46,26 39,29 35,34 C35,38 37,42 41,45 C45,39 49,36 54,36 C59,36 63,39 67,45 C71,42 73,38 73,34 C69,29 62,26 54,26 Z"/>
     
-    <!-- Right eye -->
+    <!-- Hair highlights - lighter purple -->
     <path
-        android:fillColor="#2D1B3D"
-        android:pathData="M62,54 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"/>
+        android:fillColor="#6B2E5C"
+        android:pathData="M49,29 Q47,31 45,33 L46.5,35 Q48.5,33 50.5,31 Z"
+        android:fillAlpha="0.6"/>
     
-    <!-- Eye shine left -->
     <path
-        android:fillColor="#F5D5EF"
-        android:pathData="M45,53 m-1,0 a1,1 0,1,1 2,0 a1,1 0,1,1 -2,0"/>
+        android:fillColor="#6B2E5C"
+        android:pathData="M59,29 Q61,31 63,33 L61.5,35 Q59.5,33 57.5,31 Z"
+        android:fillAlpha="0.6"/>
     
-    <!-- Eye shine right -->
+    <!-- Signature sunglasses - Kafka's iconic look -->
     <path
-        android:fillColor="#F5D5EF"
-        android:pathData="M61,53 m-1,0 a1,1 0,1,1 2,0 a1,1 0,1,1 -2,0"/>
+        android:fillColor="#1A0814"
+        android:pathData="M40,47 L68,47 L68,54 L40,54 Z"/>
     
-    <!-- Smile -->
+    <!-- Sunglasses lenses with magenta tint -->
     <path
-        android:strokeColor="#D484C4"
+        android:fillColor="#E84393"
+        android:fillAlpha="0.5"
+        android:pathData="M41,48 L52,48 L52,53 L41,53 Z"/>
+    
+    <path
+        android:fillColor="#E84393"
+        android:fillAlpha="0.5"
+        android:pathData="M56,48 L67,48 L67,53 L56,53 Z"/>
+    
+    <!-- Nose bridge detail -->
+    <path
+        android:fillColor="#1A0814"
+        android:pathData="M52,49 L56,49 L56,52 L52,52 Z"/>
+    
+    <!-- Subtle confident smile -->
+    <path
+        android:strokeColor="#D84A8F"
         android:strokeWidth="2"
         android:strokeLineCap="round"
-        android:pathData="M46,62 Q54,66 62,62"
+        android:pathData="M45,59 Q54,63 63,59"
         android:fillColor="@android:color/transparent"/>
     
-    <!-- Kafka's threads - decorative elements -->
+    <!-- Elegant coat/dress - Kafka's signature style -->
+    <path
+        android:fillColor="#2D1028"
+        android:pathData="M54,68 C47,68 40,70 36,74 L36,92 L72,92 L72,74 C68,70 61,68 54,68 Z"/>
+    
+    <!-- Coat collar - left -->
+    <path
+        android:fillColor="#4A1F3D"
+        android:pathData="M43,70 L47,74 L43,78 Z"/>
+    
+    <!-- Coat collar - right -->
+    <path
+        android:fillColor="#4A1F3D"
+        android:pathData="M65,70 L61,74 L65,78 Z"/>
+    
+    <!-- White shirt/collar accent -->
+    <path
+        android:fillColor="#F5E8F0"
+        android:pathData="M49,70 L59,70 L59,74 L49,74 Z"/>
+    
+    <!-- Decorative buttons with thread color -->
+    <path
+        android:fillColor="#E84393"
+        android:pathData="M54,77 m-2.5,0 a2.5,2.5 0,1,1 5,0 a2.5,2.5 0,1,1 -5,0"/>
+    <path
+        android:fillColor="#E84393"
+        android:pathData="M54,84 m-2.5,0 a2.5,2.5 0,1,1 5,0 a2.5,2.5 0,1,1 -5,0"/>
+    
+    <!-- Kafka's signature threads - spiral effects -->
     <path
         android:strokeColor="#E84393"
-        android:strokeWidth="2"
+        android:strokeWidth="2.5"
         android:strokeLineCap="round"
-        android:pathData="M25,50 Q20,54 22,58"
+        android:pathData="M22,48 Q18,52 20,56 Q22,60 26,58"
         android:fillColor="@android:color/transparent"/>
     
     <path
         android:strokeColor="#FD79A8"
-        android:strokeWidth="2"
+        android:strokeWidth="2.5"
         android:strokeLineCap="round"
-        android:pathData="M83,50 Q88,54 86,58"
+        android:pathData="M86,48 Q90,52 88,56 Q86,60 82,58"
         android:fillColor="@android:color/transparent"/>
     
-    <!-- Musical note ornament -->
     <path
-        android:fillColor="#D484C4"
-        android:pathData="M75,70 L77,70 L77,80 C77,82 76,83 74.5,83 C73,83 72,82 72,80 C72,78 73,77 74.5,77 C75,77 75.5,77.2 76,77.5 L76,73 L82,71 L82,78 C82,80 81,81 79.5,81 C78,81 77,80 77,78 C77,76 78,75 79.5,75 C80,75 80.5,75.2 81,75.5 L81,70 Z"/>
+        android:strokeColor="#C2185B"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M28,72 Q24,76 26,80"
+        android:fillColor="@android:color/transparent"/>
+    
+    <path
+        android:strokeColor="#FF99C8"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M80,72 Q84,76 82,80"
+        android:fillColor="@android:color/transparent"/>
+    
+    <!-- Musical note (music player theme) -->
+    <path
+        android:fillColor="#D84A8F"
+        android:pathData="M78,76 L80,76 L80,87 C80,89 79,90 77.5,90 C76,90 75,89 75,87 C75,85 76,84 77.5,84 C78,84 78.5,84.2 79,84.5 L79,79 L85,77 L85,84 C85,86 84,87 82.5,87 C81,87 80,86 80,84 C80,82 81,81 82.5,81 C83,81 83.5,81.2 84,81.5 L84,76 Z"/>
+    
+    <!-- Sparkle effects - Kafka's elegant aura -->
+    <path
+        android:fillColor="#FFE5F1"
+        android:pathData="M26,34 L27,36.5 L29.5,37.5 L27,38.5 L26,41 L25,38.5 L22.5,37.5 L25,36.5 Z"/>
+    
+    <path
+        android:fillColor="#E84393"
+        android:pathData="M82,68 L83,70 L85,71 L83,72 L82,74 L81,72 L79,71 L81,70 Z"/>
+    
+    <path
+        android:fillColor="#FD79A8"
+        android:pathData="M30,86 L30.8,87.5 L32.3,88.3 L30.8,89.1 L30,90.6 L29.2,89.1 L27.7,88.3 L29.2,87.5 Z"/>
+    
+    <path
+        android:fillColor="#FF99C8"
+        android:pathData="M78,90 L78.5,91 L79.5,91.5 L78.5,92 L78,93 L77.5,92 L76.5,91.5 L77.5,91 Z"/>
+    
+    <!-- Small decorative stars -->
+    <path
+        android:fillColor="#C2185B"
+        android:pathData="M68,32 L68.3,32.8 L69.1,33.1 L68.3,33.4 L68,34.2 L67.7,33.4 L66.9,33.1 L67.7,32.8 Z"/>
+    
+    <path
+        android:fillColor="#9C27B0"
+        android:pathData="M40,32 L40.3,32.8 L41.1,33.1 L40.3,33.4 L40,34.2 L39.7,33.4 L38.9,33.1 L39.7,32.8 Z"/>
 </vector>

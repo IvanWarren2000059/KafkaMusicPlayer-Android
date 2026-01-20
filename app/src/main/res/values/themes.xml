@@ -1,14 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.KafkaMusicPlayer" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/kafka_accent_purple</item>
-        <item name="colorPrimaryVariant">@color/kafka_deep_purple</item>
+<style name="Theme.KafkaMusicPlayer" parent="Theme.MaterialComponents.DayNight.NoActionBar">        <!-- Primary brand color - Kafka's thread magenta -->
+        <item name="colorPrimary">@color/kafka_thread_bright</item>
+        <item name="colorPrimaryVariant">@color/kafka_deep_magenta</item>
         <item name="colorOnPrimary">@color/kafka_text_primary</item>
-        <item name="colorSecondary">@color/kafka_highlight</item>
-        <item name="colorSecondaryVariant">@color/kafka_medium_purple</item>
-        <item name="colorOnSecondary">@color/kafka_text_primary</item>
-        <item name="android:statusBarColor">@color/kafka_deep_purple</item>
-        <item name="android:navigationBarColor">@color/kafka_dark_purple</item>
+        
+        <!-- Secondary brand color -->
+        <item name="colorSecondary">@color/kafka_rose</item>
+        <item name="colorSecondaryVariant">@color/kafka_thread_dark</item>
+        <item name="colorOnSecondary">@color/kafka_pale_pink</item>
+        
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/kafka_dark_wine</item>
+        <item name="colorSurface">@color/kafka_card_bg</item>
+        <item name="colorOnSurface">@color/kafka_text_primary</item>
+        
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/kafka_deepest_wine</item>
+        <item name="android:windowLightStatusBar">false</item>
+        
+        <!-- Navigation bar -->
+        <item name="android:navigationBarColor">@color/kafka_dark_wine</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        
+        <!-- Window background -->
         <item name="android:windowBackground">@drawable/kafka_gradient_bg</item>
+                <!-- Remove title bar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/kafka_text_primary</item>
+        <item name="android:textColorSecondary">@color/kafka_text_secondary</item>
+        <item name="android:textColorTertiary">@color/kafka_text_tertiary</item>
+        
+        <!-- Action bar -->
+        <item name="colorControlNormal">@color/kafka_text_secondary</item>
+        <item name="colorControlActivated">@color/kafka_thread_bright</item>
+        <item name="colorControlHighlight">@color/kafka_thread_glow</item>
+        
+        <!-- Buttons -->
+        <item name="materialButtonStyle">@style/KafkaButton</item>
+        
+        <!-- Cards -->
+        <item name="materialCardViewStyle">@style/KafkaCard</item>
+        
+        <!-- Dialogs -->
+        <item name="alertDialogTheme">@style/KafkaDialog</item>
     </style>
+    
+    <!-- Button style -->
+    <style name="KafkaButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/kafka_thread_bright</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="elevation">4dp</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    
+    <!-- Card style -->
+    <style name="KafkaCard" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/kafka_card_elevated</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">4dp</item>
+    </style>
+    
+    <!-- Dialog style -->
+    <style name="KafkaDialog" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="android:background">@drawable/kafka_dialog_bg</item>
+        <item name="buttonBarPositiveButtonStyle">@style/KafkaDialogButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/KafkaDialogButton</item>
+    </style>
+    
+    <style name="KafkaDialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/kafka_thread_bright</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    
+    <!-- Tab layout style -->
+    <style name="KafkaTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextColor">@color/kafka_text_tertiary</item>
+        <item name="tabSelectedTextColor">@color/kafka_thread_light</item>
+        <item name="tabIndicatorColor">@color/kafka_thread_bright</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabRippleColor">@color/kafka_thread_glow</item>
+    </style>
+
+    
 </resources>

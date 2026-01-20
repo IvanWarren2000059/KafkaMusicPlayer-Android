@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="#CC1F0F3D"/>
-    <corners android:radius="16dp"/>
-    <stroke
-        android:width="2dp"
-        android:color="#6D28D9"/>
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base gradient -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="135"
+                android:startColor="#E62D1028"
+                android:endColor="#E64A1F3D"/>
+            <corners android:radius="24dp"/>
+        </shape>
+    </item>
+    <!-- Thread-colored border -->
+    <item>
+        <shape android:shape="rectangle">
+            <stroke android:width="2dp" android:color="#E84393"/>
+            <corners android:radius="24dp"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+    <!-- Inner glow -->
+    <item android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <stroke android:width="1dp" android:color="#66FD79A8"/>
+            <corners android:radius="22dp"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+</layer-list>

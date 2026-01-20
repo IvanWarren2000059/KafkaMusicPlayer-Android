@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Kafka Music Player</string>
-    <string name="widget_description">Control your music playback</string>
+    <string name="app_name">Kafka\'s Playlist</string>
+    <string name="widget_description">Kafka\'s elegant music player widget</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="no_song">Select a song...</string>
+    <string name="unknown_artist">Unknown Artist</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="play_pause">Play/Pause</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="create_playlist">Create Playlist</string>
+    <string name="add_to_playlist">Add to Playlist</string>
+    <string name="playlist_name_hint">Playlist name</string>
 </resources>

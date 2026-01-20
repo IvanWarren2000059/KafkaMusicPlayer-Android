@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    
+    <!-- Subtle background glow -->
+    <path
+        android:fillColor="#334A1F3D"
+        android:pathData="M32,32 m-30,0 a30,30 0,1,1 60,0 a30,30 0,1,1 -60,0"/>
+    
+    <!-- Chibi Kafka - Compact cute version -->
+    <!-- Face -->
+    <path
+        android:fillColor="#FFE8DC"
+        android:pathData="M32,20 C27,20 23,24 23,29 C23,34 27,38 32,38 C37,38 41,34 41,29 C41,24 37,20 32,20 Z"/>
+    
+    <!-- Hair - left -->
+    <path
+        android:fillColor="#3D1A2E"
+        android:pathData="M22,23 C21,22 20,21 19.5,20 L18,21 C18.5,22.5 20,24 21.5,25.5 C22,24.5 22,23.7 22,23 Z"/>
+    
+    <!-- Hair - right -->
+    <path
+        android:fillColor="#3D1A2E"
+        android:pathData="M42,23 C43,22 44,21 44.5,20 L46,21 C45.5,22.5 44,24 42.5,25.5 C42,24.5 42,23.7 42,23 Z"/>
+    
+    <!-- Hair top -->
+    <path
+        android:fillColor="#3D1A2E"
+        android:pathData="M32,14 C27,14 22,16 20,20 C20,23 21,26 24,28 C27,23 29.5,20 32,20 C34.5,20 37,23 40,28 C43,26 44,23 44,20 C42,16 37,14 32,14 Z"/>
+    
+    <!-- Hair highlight -->
+    <path
+        android:fillColor="#6B2E5C"
+        android:fillAlpha="0.5"
+        android:pathData="M29,16 Q28,17.5 27,19 L28.5,20 Q29.5,18.5 30.5,17 Z"/>
+    
+    <!-- Sunglasses -->
+    <path
+        android:fillColor="#1A0814"
+        android:pathData="M25,27 L39,27 L39,31 L25,31 Z"/>
+    
+    <!-- Lenses with pink tint -->
+    <path
+        android:fillColor="#E84393"
+        android:fillAlpha="0.4"
+        android:pathData="M26,28 L31,28 L31,30 L26,30 Z"/>
+    <path
+        android:fillColor="#E84393"
+        android:fillAlpha="0.4"
+        android:pathData="M33,28 L38,28 L38,30 L33,30 Z"/>
+    
+    <!-- Smile -->
+    <path
+        android:strokeColor="#D84A8F"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M27,34 Q32,36.5 37,34"
+        android:fillColor="@android:color/transparent"/>
+    
+    <!-- Chibi body - simplified coat -->
+    <path
+        android:fillColor="#2D1028"
+        android:pathData="M32,38 C28,38 24,39 22,42 L22,54 L42,54 L42,42 C40,39 36,38 32,38 Z"/>
+    
+    <!-- Collar details -->
+    <path
+        android:fillColor="#4A1F3D"
+        android:pathData="M27,39 L29,42 L27,45 Z"/>
+    <path
+        android:fillColor="#4A1F3D"
+        android:pathData="M37,39 L35,42 L37,45 Z"/>
+    
+    <!-- White collar -->
+    <path
+        android:fillColor="#F5E8F0"
+        android:pathData="M29,39 L35,39 L35,42 L29,42 Z"/>
+    
+    <!-- Buttons -->
+    <path
+        android:fillColor="#E84393"
+        android:pathData="M32,46 m-1.5,0 a1.5,1.5 0,1,1 3,0 a1.5,1.5 0,1,1 -3,0"/>
+    <path
+        android:fillColor="#E84393"
+        android:pathData="M32,50 m-1.5,0 a1.5,1.5 0,1,1 3,0 a1.5,1.5 0,1,1 -3,0"/>
+    
+    <!-- Thread effects -->
+    <path
+        android:strokeColor="#E84393"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M14,28 Q11,31 12,34"
+        android:fillColor="@android:color/transparent"/>
+    
+    <path
+        android:strokeColor="#FD79A8"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M50,28 Q53,31 52,34"
+        android:fillColor="@android:color/transparent"/>
+    
+    <!-- Sparkles -->
+    <path
+        android:fillColor="#FFE5F1"
+        android:pathData="M12,20 L12.5,21.5 L14,22 L12.5,22.5 L12,24 L11.5,22.5 L10,22 L11.5,21.5 Z"/>
+    
+    <path
+        android:fillColor="#E84393"
+        android:pathData="M52,46 L52.5,47 L53.5,47.5 L52.5,48 L52,49 L51.5,48 L50.5,47.5 L51.5,47 Z"/>
+</vector>

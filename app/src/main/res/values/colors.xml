@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Kafka's Thread Color Scheme - Reddish Purple -->
-    <color name="kafka_deep_purple">#1A0A1F</color>
-    <color name="kafka_dark_purple">#2D1B3D</color>
-    <color name="kafka_medium_purple">#4A2C5E</color>
-    <color name="kafka_accent_purple">#8B3A7C</color>
-    <color name="kafka_light_purple">#B565A7</color>
-    <color name="kafka_highlight">#D484C4</color>
-    <color name="kafka_text_primary">#F5D5EF</color>
-    <color name="kafka_card_bg">#2D1640</color>
-    <color name="kafka_thread_red">#E84393</color>
-    <color name="kafka_thread_pink">#FD79A8</color>
+    <!-- Kafka's Signature Colors - Based on her design -->
+    <color name="kafka_deepest_wine">#120410</color>
+    <color name="kafka_dark_wine">#1F0A1C</color>
+    <color name="kafka_wine">#2D1028</color>
+    <color name="kafka_burgundy">#4A1F3D</color>
+    <color name="kafka_deep_magenta">#6B2E5C</color>
+    
+    <!-- Thread Colors - Her signature magenta/pink threads -->
+    <color name="kafka_thread_bright">#E84393</color>
+    <color name="kafka_thread_light">#FD79A8</color>
+    <color name="kafka_thread_glow">#FF99C8</color>
+    <color name="kafka_thread_dark">#C2185B</color>
+    
+    <!-- Accent Colors -->
+    <color name="kafka_purple_accent">#9C27B0</color>
+    <color name="kafka_rose">#D84A8F</color>
+    <color name="kafka_pale_pink">#FFE5F1</color>
+    
+    <!-- Text Colors -->
+    <color name="kafka_text_primary">#F5E8F0</color>
+    <color name="kafka_text_secondary">#C897B8</color>
+    <color name="kafka_text_tertiary">#9D7090</color>
+    
+    <!-- UI Element Colors -->
+    <color name="kafka_card_bg">#2A1524</color>
+    <color name="kafka_card_elevated">#3D1F35</color>
+    <color name="kafka_divider">#5E3A52</color>
+    
+    <!-- Translucent overlays -->
+    <color name="kafka_overlay_dark">#CC120410</color>
+    <color name="kafka_overlay_medium">#99120410</color>
+    <color name="kafka_overlay_light">#66120410</color>
+    
+    <!-- Special effects -->
+    <color name="kafka_glow">#FFFFE5F1</color>
+    <color name="kafka_shadow">#88000000</color>
 </resources>

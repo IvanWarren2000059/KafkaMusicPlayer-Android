@@ -7,6 +7,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
@@ -98,10 +100,8 @@ class PlayerService : MediaSessionService() {
     }
 
     private fun initializeMediaSessions() {
-        // MediaSession for modern Android
         session = MediaSession.Builder(this, player).build()
         
-        // MediaSessionCompat for notification controls
         mediaSessionCompat = MediaSessionCompat(this, TAG).apply {
             setCallback(object : MediaSessionCompat.Callback() {
                 override fun onPlay() {
@@ -165,7 +165,7 @@ class PlayerService : MediaSessionService() {
         val action = intent?.action
         Log.d(TAG, "")
         Log.d(TAG, "========================================")
-        Log.d(TAG, "📥 ACTION RECEIVED: $action")
+        Log.d(TAG, "🔥 ACTION RECEIVED: $action")
         Log.d(TAG, "========================================")
         
         when (action) {
@@ -280,6 +280,10 @@ class PlayerService : MediaSessionService() {
         player.stop()
         mediaSessionCompat.isActive = false
         stopForeground(STOP_FOREGROUND_REMOVE)
+        
+        broadcastPlaybackState(false)
+        updateWidget()
+        
         stopSelf()
     }
 
@@ -318,10 +322,12 @@ class PlayerService : MediaSessionService() {
         val mediaItem = MediaItem.fromUri(song.uri)
         player.setMediaItem(mediaItem)
         player.prepare()
-        player.play()
+        player.playWhenReady = true        
+        val notification = createNotification(song)
+        startForeground(NOTIFICATION_ID, notification)
         
-        startForeground(NOTIFICATION_ID, createNotification(song))
         updateWidget()
+        broadcastPlaybackState(true)
     }
 
     private fun playNext() {
@@ -352,8 +358,6 @@ class PlayerService : MediaSessionService() {
         PlaybackQueue.set(songs, index)
         playCurrent()
     }
-
-    // ==================== State Management ====================
     
     private fun saveLastPlayedSong(song: Song) {
         prefs.edit()
@@ -372,13 +376,15 @@ class PlayerService : MediaSessionService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Kafka Music Player",
+                "Kafka's Music Player",
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
-                description = "Music playback controls"
+                description = "Kafka's elegant music playback controls"
                 setShowBadge(false)
                 setSound(null, null)
                 lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+                enableLights(true)
+                lightColor = android.graphics.Color.parseColor("#E84393")
             }
             
             notificationManager.createNotificationChannel(channel)
@@ -386,7 +392,7 @@ class PlayerService : MediaSessionService() {
     }
 
     private fun createNotification(song: Song): Notification {
-        Log.d(TAG, "🔔 Creating notification")
+        Log.d(TAG, "🔔 Creating Kafka notification for: ${song.title}")
         
         val openAppIntent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -396,22 +402,55 @@ class PlayerService : MediaSessionService() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
+        val deleteIntent = Intent(this, PlayerService::class.java).apply {
+            action = ACTION_STOP
+        }
+        val deletePendingIntent = PendingIntent.getService(
+            this, 0, deleteIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
         val playPauseIcon = if (player.isPlaying) R.drawable.ic_pause else R.drawable.ic_play
         val playPauseText = if (player.isPlaying) "Pause" else "Play"
+        
+        // ========================================
+        // KAFKA ANIMATION LOGIC - Same as MainActivity
+        // Use kafka_playing when playing, kafka_idle when paused
+        // ========================================
+        val kafkaArtwork = if (player.isPlaying) {
+            BitmapFactory.decodeResource(resources, R.drawable.kafka_playing)
+        } else {
+            BitmapFactory.decodeResource(resources, R.drawable.kafka_idle)
+        }
+        
+        // Kafka-themed subtitle with elegant status indicators
+        val subtitle = when {
+            isIsolateMode -> "🎯 Isolated Playback"
+            isShuffled -> "🔀 Shuffle Mode"
+            else -> "♠️ Sequential"
+        }
 
+        // Kafka color scheme matching the app
+        val kafkaThreadColor = android.graphics.Color.parseColor("#E84393") // kafka_thread_bright
+        val kafkaWineColor = android.graphics.Color.parseColor("#641E3E") // kafka_wine
+        
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_play)
+            .setSmallIcon(R.drawable.ic_play) // Use existing play icon for small notification icon
+            .setLargeIcon(kafkaArtwork) // ✨ Kafka chibi changes based on playing state
             .setContentTitle(song.title)
             .setContentText(song.artist)
-            .setSubText(if (isShuffled) "🔀 Shuffle" else "Kafka Player")
+            .setSubText(subtitle)
             .setContentIntent(openAppPendingIntent)
-            .setDeleteIntent(null)
-            .setOngoing(true)
+            .setDeleteIntent(deletePendingIntent)
+            .setOngoing(player.isPlaying)
             .setOnlyAlertOnce(true)
             .setShowWhen(false)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
+            .setColor(kafkaThreadColor) // Kafka's signature pink/thread color
+            .setColorized(false) // Keep it subtle and elegant
+            // Previous button
             .addAction(
                 NotificationCompat.Action.Builder(
                     R.drawable.ic_previous,
@@ -422,6 +461,7 @@ class PlayerService : MediaSessionService() {
                     )
                 ).build()
             )
+            // Play/Pause button
             .addAction(
                 NotificationCompat.Action.Builder(
                     playPauseIcon,
@@ -432,6 +472,7 @@ class PlayerService : MediaSessionService() {
                     )
                 ).build()
             )
+            // Next button
             .addAction(
                 NotificationCompat.Action.Builder(
                     R.drawable.ic_next,
@@ -453,7 +494,20 @@ class PlayerService : MediaSessionService() {
     private fun updateNotification() {
         val song = PlaybackQueue.current() ?: return
         val notification = createNotification(song)
-        notificationManager.notify(NOTIFICATION_ID, notification)
+        
+        // ========================================
+        // NOTIFICATION BEHAVIOR
+        // When paused: dismissible (detach from foreground)
+        // When playing: persistent (stay in foreground)
+        // ========================================
+        if (!player.isPlaying) {
+            Log.d(TAG, "⏸️ Paused - notification is dismissible")
+            stopForeground(STOP_FOREGROUND_DETACH)
+            notificationManager.notify(NOTIFICATION_ID, notification)
+        } else {
+            Log.d(TAG, "▶️ Playing - notification is persistent")
+            startForeground(NOTIFICATION_ID, notification)
+        }
     }
 
     // ==================== Broadcasting & Widget ====================
@@ -470,6 +524,7 @@ class PlayerService : MediaSessionService() {
 
     private fun updateWidget() {
         val song = PlaybackQueue.current()
+        
         MusicWidget.updateWidget(
             this,
             song?.title ?: "No song playing",

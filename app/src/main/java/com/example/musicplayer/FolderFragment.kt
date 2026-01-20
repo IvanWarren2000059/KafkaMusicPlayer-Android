@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -27,8 +26,8 @@ class FoldersFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_playlists, container, false)
-        folderRecycler = view.findViewById(R.id.playlistRecycler)
+        val view = inflater.inflate(R.layout.fragment_folders, container, false)
+        folderRecycler = view.findViewById(R.id.folderRecycler)
         emptyText = view.findViewById(R.id.emptyText)
         
         setupRecyclerView()
@@ -42,7 +41,7 @@ class FoldersFragment : Fragment() {
         
         if (folders.isEmpty()) {
             emptyText.visibility = View.VISIBLE
-            emptyText.text = "No music folders found"
+            emptyText.text = "No music folders found\nAdd music to your device"
             folderRecycler.visibility = View.GONE
         } else {
             emptyText.visibility = View.GONE
@@ -65,43 +64,21 @@ class FoldersFragment : Fragment() {
     }
     
     private fun showFolderSongs(folderName: String, songs: List<Song>) {
-        // Create dialog layout programmatically
-        val dialogLayout = LinearLayout(requireContext()).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(32, 32, 32, 32)
-            setBackgroundColor(0xFF1F0F3D.toInt())
-        }
+        val dialogView = layoutInflater.inflate(R.layout.dialog_folder_songs, null)
         
-        // Title
-        val titleText = TextView(requireContext()).apply {
-            text = folderName
-            textSize = 20f
-            setTextColor(0xFFE8D4F8.toInt())
-            setPadding(0, 0, 0, 24)
-            gravity = android.view.Gravity.CENTER
-        }
-        dialogLayout.addView(titleText)
+        val titleText = dialogView.findViewById<TextView>(R.id.folderTitle)
+        titleText.text = folderName
         
-        // RecyclerView for songs
-        val recyclerView = RecyclerView(requireContext()).apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                800 // height in pixels
-            )
-        }
+        val recyclerView = dialogView.findViewById<RecyclerView>(R.id.folderSongsRecycler)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         
-        // Create adapter - clicking plays song
         val adapter = SongAdapter(songs) { song ->
             (activity as? MainActivity)?.playSong(song, false)
         }
         recyclerView.adapter = adapter
         
-        dialogLayout.addView(recyclerView)
-        
-        // Show dialog
         AlertDialog.Builder(requireContext())
-            .setView(dialogLayout)
+            .setView(dialogView)
             .setNegativeButton("Close", null)
             .setPositiveButton("Play All") { dialog, which ->
                 if (songs.isNotEmpty()) {

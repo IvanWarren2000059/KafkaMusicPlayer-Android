@@ -3,39 +3,43 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#1F0F3D"
-    android:padding="16dp">
+    android:background="@drawable/kafka_dialog_bg"
+    android:padding="20dp">
 
+    <!-- Elegant Title -->
     <TextView
         android:id="@+id/folderTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Folder Name"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="#E8D4F8"
+        android:textColor="@color/kafka_pale_pink"
         android:fontFamily="serif"
         android:paddingBottom="8dp"
         android:gravity="center"/>
 
+    <!-- Decorative divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#5E3A8C"
-        android:layout_marginBottom="12dp"/>
+        android:background="@drawable/kafka_divider_gradient"
+        android:layout_marginBottom="16dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Songs in this folder:"
         android:textSize="14sp"
-        android:textColor="#9D7DBD"
-        android:paddingBottom="8dp"/>
+        android:textColor="@color/kafka_text_secondary"
+        android:paddingBottom="12dp"
+        android:fontFamily="sans-serif-medium"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/folderSongsRecycler"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        android:scrollbarThumbVertical="@drawable/kafka_scrollbar"/>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.musicplayer
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -8,7 +9,10 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -34,6 +38,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var seekBar: SeekBar
     private lateinit var fabAddPlaylist: FloatingActionButton
     
+    // Kafka animation views
+    private lateinit var kafkaIdle: ImageView
+    private lateinit var kafkaPlaying: ImageView
+    
     private var songList: List<Song> = emptyList()
     private var isShuffled = false
     private var isPlaying = false
@@ -45,6 +53,8 @@ class MainActivity : AppCompatActivity() {
         const val EXTRA_SONG_TITLE = "SONG_TITLE"
         const val EXTRA_SONG_ARTIST = "SONG_ARTIST"
         const val EXTRA_IS_PLAYING = "IS_PLAYING"
+        
+        private const val KAFKA_ANIM_DURATION = 400L
     }
 
     private val updateReceiver = object : BroadcastReceiver() {
@@ -55,6 +65,7 @@ class MainActivity : AppCompatActivity() {
             
             updateNowPlaying(title, artist)
             updatePlayPauseButton()
+            updateKafkaAnimation(isPlaying)
         }
     }
 
@@ -86,6 +97,10 @@ class MainActivity : AppCompatActivity() {
         shuffleBtn = findViewById(R.id.shuffleBtn)
         seekBar = findViewById(R.id.seekBar)
         fabAddPlaylist = findViewById(R.id.fabAddPlaylist)
+        
+        // Initialize Kafka animation views
+        kafkaIdle = findViewById(R.id.kafkaIdle)
+        kafkaPlaying = findViewById(R.id.kafkaPlaying)
     }
 
     private fun setupListeners() {
@@ -197,6 +212,7 @@ class MainActivity : AppCompatActivity() {
         updateNowPlaying(song.title, song.artist)
         isPlaying = true
         updatePlayPauseButton()
+        updateKafkaAnimation(true)
     }
 
     private fun updateNowPlaying(title: String?, artist: String?) {
@@ -212,6 +228,70 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateShuffleButton() {
         shuffleBtn.alpha = if (isShuffled) 1.0f else 0.5f
+    }
+    
+    // ========================================
+    // KAFKA ANIMATION METHODS
+    // ========================================
+    
+    /**
+     * Animates Kafka between idle and playing states with smooth crossfade
+     * @param playing true to show excited Kafka, false to show calm Kafka
+     */
+    private fun updateKafkaAnimation(playing: Boolean) {
+        if (playing) {
+            animateKafkaToPlaying()
+        } else {
+            animateKafkaToIdle()
+        }
+    }
+    
+    private fun animateKafkaToPlaying() {
+        // Fade out idle Kafka
+        ObjectAnimator.ofFloat(kafkaIdle, "alpha", 1f, 0f).apply {
+            duration = KAFKA_ANIM_DURATION
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }.also {
+            it.addUpdateListener { animation ->
+                if (animation.animatedFraction == 1f) {
+                    kafkaIdle.visibility = View.GONE
+                }
+            }
+        }
+        
+        // Fade in playing Kafka
+        kafkaPlaying.visibility = View.VISIBLE
+        kafkaPlaying.alpha = 0f
+        ObjectAnimator.ofFloat(kafkaPlaying, "alpha", 0f, 1f).apply {
+            duration = KAFKA_ANIM_DURATION
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
+    }
+    
+    private fun animateKafkaToIdle() {
+        // Fade out playing Kafka
+        ObjectAnimator.ofFloat(kafkaPlaying, "alpha", 1f, 0f).apply {
+            duration = KAFKA_ANIM_DURATION
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }.also {
+            it.addUpdateListener { animation ->
+                if (animation.animatedFraction == 1f) {
+                    kafkaPlaying.visibility = View.GONE
+                }
+            }
+        }
+        
+        // Fade in idle Kafka
+        kafkaIdle.visibility = View.VISIBLE
+        kafkaIdle.alpha = 0f
+        ObjectAnimator.ofFloat(kafkaIdle, "alpha", 0f, 1f).apply {
+            duration = KAFKA_ANIM_DURATION
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
     }
 
     private fun showCreatePlaylistDialog() {

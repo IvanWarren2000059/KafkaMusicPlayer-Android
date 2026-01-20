@@ -13,8 +13,8 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@android:drawable/ic_media_play"
-        android:label="@string/app_name"
+        android:icon="@drawable/kafka_icon"
+        android:label="Kafka's Music Player"
         android:theme="@style/Theme.KafkaMusicPlayer">
 
         <!-- Main Activity -->
@@ -40,7 +40,7 @@
 
         <!-- Media Button Receiver for Headphone Controls -->
         <receiver
-            android:name=".MediaButtonReceiver"
+            android:name="androidx.media.session.MediaButtonReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
@@ -50,7 +50,8 @@
         <!-- Widget -->
         <receiver
             android:name=".MusicWidget"
-            android:exported="true">
+            android:exported="true"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.example.musicplayer.WIDGET_PLAY_PAUSE" />
