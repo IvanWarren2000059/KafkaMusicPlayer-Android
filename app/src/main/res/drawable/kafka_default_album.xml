@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    
+    <!-- Background -->
+    <path
+        android:fillColor="#2D1654"
+        android:pathData="M0,0 L100,0 L100,100 L0,100 Z"/>
+    
+    <!-- Music note design -->
+    <path
+        android:fillColor="#C490E4"
+        android:pathData="M40,25 L45,25 L45,55 C45,60 42,63 37.5,63 C33,63 30,60 30,55 C30,50 33,47 37.5,47 C39,47 40.5,47.5 42,48.5 L42,32 L60,28 L60,48 C60,53 57,56 52.5,56 C48,56 45,53 45,48 C45,43 48,40 52.5,40 C54,40 55.5,40.5 57,41.5 L57,25 L45,28 L45,25 Z"/>
+    
+    <!-- Decorative circle -->
+    <path
+        android:fillColor="#9D7DBD"
+        android:pathData="M50,50 m-8,0 a8,8 0,1,1 16,0 a8,8 0,1,1 -16,0"
+        android:strokeWidth="2"
+        android:strokeColor="#E8D4F8"/>
+</vector>

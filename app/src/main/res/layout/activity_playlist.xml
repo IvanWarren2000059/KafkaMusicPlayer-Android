@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5DC"
+    android:padding="8dp">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/playlistTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Playlists"
+        android:textSize="20sp"
+        android:textColor="#4B0082"
+        android:padding="8dp"
+        android:textStyle="bold"/>
+
+    <!-- Playlists RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/playlistRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingTop="8dp"/>
+
+    <!-- Add Playlist Button -->
+    <Button
+        android:id="@+id/addPlaylistBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Playlist"
+        android:background="#E6E6FA"
+        android:textColor="#4B0082"
+        android:padding="12dp"
+        android:layout_marginTop="8dp"/>
+</LinearLayout>

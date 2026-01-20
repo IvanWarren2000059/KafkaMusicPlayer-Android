@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kafka's Thread Color Scheme - Reddish Purple -->
+    <color name="kafka_deep_purple">#1A0A1F</color>
+    <color name="kafka_dark_purple">#2D1B3D</color>
+    <color name="kafka_medium_purple">#4A2C5E</color>
+    <color name="kafka_accent_purple">#8B3A7C</color>
+    <color name="kafka_light_purple">#B565A7</color>
+    <color name="kafka_highlight">#D484C4</color>
+    <color name="kafka_text_primary">#F5D5EF</color>
+    <color name="kafka_card_bg">#2D1640</color>
+    <color name="kafka_thread_red">#E84393</color>
+    <color name="kafka_thread_pink">#FD79A8</color>
+</resources>

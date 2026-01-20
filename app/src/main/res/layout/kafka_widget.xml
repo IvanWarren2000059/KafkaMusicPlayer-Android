@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/widget_background">
+
+    <TextView
+        android:id="@+id/widgetTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kafka Music Player"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/widgetSongTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No song playing"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/widgetArtist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Unknown Artist"
+        android:textColor="#CCCCCC"
+        android:textSize="12sp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:paddingBottom="8dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <!-- Shuffle Button (NEW) -->
+        <ImageButton
+            android:id="@+id/widgetShuffleBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_shuffle"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Shuffle"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="4dp"/>
+
+        <ImageButton
+            android:id="@+id/widgetPrevBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_previous"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Previous"
+            android:scaleType="fitCenter"/>
+
+        <ImageButton
+            android:id="@+id/widgetPlayPauseBtn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_play"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Play/Pause"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"/>
+
+        <ImageButton
+            android:id="@+id/widgetNextBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_next"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Next"
+            android:scaleType="fitCenter"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Background Circle -->
+    <path
+        android:fillColor="#2D1B3D"
+        android:pathData="M54,54 m-50,0 a50,50 0,1,1 100,0 a50,50 0,1,1 -100,0"/>
+    
+    <!-- Outer glow -->
+    <path
+        android:fillColor="#4A2C5E"
+        android:pathData="M54,54 m-44,0 a44,44 0,1,1 88,0 a44,44 0,1,1 -88,0"/>
+    
+    <!-- Face base -->
+    <path
+        android:fillColor="#F5D5EF"
+        android:pathData="M54,40 C44,40 36,48 36,58 C36,68 44,76 54,76 C64,76 72,68 72,58 C72,48 64,40 54,40 Z"/>
+    
+    <!-- Hair - left side -->
+    <path
+        android:fillColor="#8B3A7C"
+        android:pathData="M40,38 C38,35 36,32 35,30 L32,32 C33,35 35,38 37,40 C38,39 39,38.5 40,38 Z"/>
+    
+    <!-- Hair - right side -->
+    <path
+        android:fillColor="#8B3A7C"
+        android:pathData="M68,38 C70,35 72,32 73,30 L76,32 C75,35 73,38 71,40 C70,39 69,38.5 68,38 Z"/>
+    
+    <!-- Hair top -->
+    <path
+        android:fillColor="#8B3A7C"
+        android:pathData="M54,28 C48,28 42,30 38,34 C38,38 40,42 44,44 C48,38 52,35 54,35 C56,35 60,38 64,44 C68,42 70,38 70,34 C66,30 60,28 54,28 Z"/>
+    
+    <!-- Left eye -->
+    <path
+        android:fillColor="#2D1B3D"
+        android:pathData="M46,54 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"/>
+    
+    <!-- Right eye -->
+    <path
+        android:fillColor="#2D1B3D"
+        android:pathData="M62,54 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"/>
+    
+    <!-- Eye shine left -->
+    <path
+        android:fillColor="#F5D5EF"
+        android:pathData="M45,53 m-1,0 a1,1 0,1,1 2,0 a1,1 0,1,1 -2,0"/>
+    
+    <!-- Eye shine right -->
+    <path
+        android:fillColor="#F5D5EF"
+        android:pathData="M61,53 m-1,0 a1,1 0,1,1 2,0 a1,1 0,1,1 -2,0"/>
+    
+    <!-- Smile -->
+    <path
+        android:strokeColor="#D484C4"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M46,62 Q54,66 62,62"
+        android:fillColor="@android:color/transparent"/>
+    
+    <!-- Kafka's threads - decorative elements -->
+    <path
+        android:strokeColor="#E84393"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M25,50 Q20,54 22,58"
+        android:fillColor="@android:color/transparent"/>
+    
+    <path
+        android:strokeColor="#FD79A8"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M83,50 Q88,54 86,58"
+        android:fillColor="@android:color/transparent"/>
+    
+    <!-- Musical note ornament -->
+    <path
+        android:fillColor="#D484C4"
+        android:pathData="M75,70 L77,70 L77,80 C77,82 76,83 74.5,83 C73,83 72,82 72,80 C72,78 73,77 74.5,77 C75,77 75.5,77.2 76,77.5 L76,73 L82,71 L82,78 C82,80 81,81 79.5,81 C78,81 77,80 77,78 C77,76 78,75 79.5,75 C80,75 80.5,75.2 81,75.5 L81,70 Z"/>
+</vector>
