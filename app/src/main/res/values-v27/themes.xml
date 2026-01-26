@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Override for API 27+ to add windowLightNavigationBar -->
     <style name="Theme.KafkaMusicPlayer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color - Kafka's thread magenta -->
         <item name="colorPrimary">@color/kafka_thread_bright</item>
@@ -22,7 +23,8 @@
         
         <!-- Navigation bar -->
         <item name="android:navigationBarColor">@color/kafka_dark_wine</item>
-        <!-- ❌ REMOVED: android:windowLightNavigationBar - moved to values-v27/themes.xml -->
+        <!-- ✅ API 27+ only attribute -->
+        <item name="android:windowLightNavigationBar">false</item>
         
         <!-- Window background -->
         <item name="android:windowBackground">@drawable/kafka_gradient_bg</item>
@@ -49,43 +51,5 @@
         
         <!-- Dialogs -->
         <item name="alertDialogTheme">@style/KafkaDialog</item>
-    </style>
-    
-    <!-- Button style -->
-    <style name="KafkaButton" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/kafka_thread_bright</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="cornerRadius">12dp</item>
-        <item name="elevation">4dp</item>
-        <item name="android:letterSpacing">0.05</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-    
-    <!-- Card style -->
-    <style name="KafkaCard" parent="Widget.MaterialComponents.CardView">
-        <item name="cardBackgroundColor">@color/kafka_card_elevated</item>
-        <item name="cardCornerRadius">16dp</item>
-        <item name="cardElevation">4dp</item>
-    </style>
-    
-    <!-- Dialog style -->
-    <style name="KafkaDialog" parent="Theme.MaterialComponents.Dialog.Alert">
-        <item name="android:background">@drawable/kafka_dialog_bg</item>
-        <item name="buttonBarPositiveButtonStyle">@style/KafkaDialogButton</item>
-        <item name="buttonBarNegativeButtonStyle">@style/KafkaDialogButton</item>
-    </style>
-    
-    <style name="KafkaDialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/kafka_thread_bright</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-    
-    <!-- Tab layout style -->
-    <style name="KafkaTabLayout" parent="Widget.MaterialComponents.TabLayout">
-        <item name="tabTextColor">@color/kafka_text_tertiary</item>
-        <item name="tabSelectedTextColor">@color/kafka_thread_light</item>
-        <item name="tabIndicatorColor">@color/kafka_thread_bright</item>
-        <item name="tabIndicatorHeight">3dp</item>
-        <item name="tabRippleColor">@color/kafka_thread_glow</item>
     </style>
 </resources>

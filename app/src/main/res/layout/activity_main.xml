@@ -182,7 +182,7 @@
                     android:layout_height="44dp"
                     android:src="@drawable/ic_shuffle"
                     android:background="@drawable/kafka_icon_bg"
-                    android:tint="@color/kafka_thread_light"
+                    app:tint="@color/kafka_thread_light"
                     android:contentDescription="Shuffle"
                     android:scaleType="centerInside"
                     android:padding="8dp"/>
@@ -216,7 +216,7 @@
                     android:layout_height="52dp"
                     android:src="@drawable/ic_previous"
                     android:background="@drawable/kafka_control_bg"
-                    android:tint="@color/kafka_rose"
+                    app:tint="@color/kafka_rose"
                     android:contentDescription="Previous"
                     android:scaleType="centerInside"
                     android:padding="12dp"/>
@@ -237,7 +237,7 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_play"
                         android:background="@drawable/kafka_play_button_bg"
-                        android:tint="@android:color/white"
+                        app:tint="@android:color/white"
                         android:contentDescription="Play/Pause"
                         android:scaleType="centerInside"
                         android:padding="16dp"/>
@@ -250,7 +250,7 @@
                     android:layout_height="52dp"
                     android:src="@drawable/ic_next"
                     android:background="@drawable/kafka_control_bg"
-                    android:tint="@color/kafka_rose"
+                    app:tint="@color/kafka_rose"
                     android:contentDescription="Next"
                     android:scaleType="centerInside"
                     android:padding="12dp"/>
@@ -267,7 +267,7 @@
                     android:layout_height="44dp"
                     android:src="@drawable/ic_playlist"
                     android:background="@drawable/kafka_icon_bg"
-                    android:tint="@color/kafka_text_secondary"
+                    app:tint="@color/kafka_text_secondary"
                     android:contentDescription="View Playlist"
                     android:scaleType="centerInside"
                     android:padding="8dp"/>

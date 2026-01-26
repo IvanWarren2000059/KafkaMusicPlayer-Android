@@ -37,14 +37,44 @@ fun scanSongs(context: Context): List<Song> {
             val path = cursor.getString(dataIndex)
             val contentUri = Uri.withAppendedPath(uri, id.toString())
             
-            // Extract folder name from path
-            val folder = File(path).parentFile?.name ?: "Unknown"
+            // ✅ FIX: Better folder extraction that works with nested folders
+            val folder = extractMusicFolder(path)
             
             songList.add(Song(title, artist, contentUri, folder))
         }
     }
 
     return songList
+}
+
+/**
+ * Extracts a meaningful folder name from the full path
+ * Handles nested folders intelligently
+ */
+private fun extractMusicFolder(fullPath: String): String {
+    val file = File(fullPath)
+    val parentFile = file.parentFile ?: return "Unknown"
+    
+    // Get the path segments
+    val pathParts = parentFile.absolutePath.split("/")
+    
+    // Common music root folders to skip
+    val skipFolders = setOf(
+        "storage", "emulated", "0", "Music", "Audio", 
+        "Download", "Downloads", "media", "Android"
+    )
+    
+    // Find the most specific folder that's not a system folder
+    val meaningfulParts = pathParts
+        .filter { it.isNotEmpty() && !skipFolders.contains(it) }
+        .takeLast(2) // Take last 2 meaningful parts for nested folders
+    
+    return if (meaningfulParts.isNotEmpty()) {
+        // Join with " > " to show hierarchy (e.g., "Rock > Classic Rock")
+        meaningfulParts.joinToString(" > ")
+    } else {
+        parentFile.name.takeIf { it.isNotEmpty() } ?: "Unknown"
+    }
 }
 
 // Group songs by folder

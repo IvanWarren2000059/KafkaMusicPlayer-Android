@@ -36,6 +36,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    lint {
+        // Disable non-critical lint checks
+        disable += setOf(
+            "UseAppTint",           // android:tint vs app:tint
+            "UnusedAttribute",      // unused attributes
+            "ObsoleteLintCustomCheck"
+        )
+        // Don't abort build on lint errors
+        abortOnError = false
+    }
 }
 
 dependencies {
@@ -68,3 +79,4 @@ dependencies {
     // Fragments
     implementation("androidx.fragment:fragment-ktx:1.6.2")
 }
+

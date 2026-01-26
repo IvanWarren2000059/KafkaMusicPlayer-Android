@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.musicplayer">
 
     <!-- Permissions -->
@@ -10,12 +11,18 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    
+    <!-- ✅ NEW: Boot permission to restart service after reboot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/kafka_icon"
         android:label="Kafka's Music Player"
-        android:theme="@style/Theme.KafkaMusicPlayer">
+        android:theme="@style/Theme.KafkaMusicPlayer"
+        android:supportsRtl="true"
+        tools:targetApi="31">
 
         <!-- Main Activity -->
         <activity
@@ -32,7 +39,9 @@
         <service
             android:name=".PlayerService"
             android:foregroundServiceType="mediaPlayback"
-            android:exported="false">
+            android:exported="false"
+            android:stopWithTask="false"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
@@ -44,6 +53,17 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- ✅ NEW: Boot Receiver - Restarts service after device reboot -->
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
 

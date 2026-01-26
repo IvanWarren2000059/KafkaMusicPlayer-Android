@@ -7,10 +7,12 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
+import android.os.PowerManager
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
@@ -29,15 +31,20 @@ class PlayerService : MediaSessionService() {
     private lateinit var mediaSessionCompat: MediaSessionCompat
     private lateinit var prefs: SharedPreferences
     private lateinit var notificationManager: NotificationManager
+    private lateinit var wakeLock: PowerManager.WakeLock
     
     private var isShuffled = false
     private var isIsolateMode = false
     private var isolatedSong: Song? = null
     private var currentSongList: List<Song> = emptyList()
+    
+    private val handler = Handler(Looper.getMainLooper())
 
     companion object {
         private const val TAG = "PlayerService"
-        
+        private const val WAKE_LOCK_TAG = "MusicPlayer:WakeLock"
+        const val EXTRA_SONG_URI = "SONG_URI"
+
         const val ACTION_PLAY = "PLAY"
         const val ACTION_PLAY_PAUSE = "PLAY_PAUSE"
         const val ACTION_NEXT = "NEXT"
@@ -45,10 +52,13 @@ class PlayerService : MediaSessionService() {
         const val ACTION_SHUFFLE = "SHUFFLE"
         const val ACTION_SHUFFLE_TOGGLE = "SHUFFLE_TOGGLE"
         const val ACTION_STOP = "STOP"
+        const val ACTION_SEEK = "SEEK"
+        const val ACTION_REQUEST_PROGRESS = "REQUEST_PROGRESS"
         
         const val EXTRA_INDEX = "INDEX"
         const val EXTRA_ISOLATE_MODE = "ISOLATE_MODE"
         const val EXTRA_SHUFFLE_STATE = "SHUFFLE_STATE"
+        const val EXTRA_SEEK_POSITION = "SEEK_POSITION"
         
         private const val CHANNEL_ID = "kafka_player_channel"
         private const val NOTIFICATION_ID = 1
@@ -68,6 +78,14 @@ class PlayerService : MediaSessionService() {
         prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         notificationManager = getSystemService(NotificationManager::class.java)
         
+        // Initialize wake lock
+        val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+        wakeLock = powerManager.newWakeLock(
+            PowerManager.PARTIAL_WAKE_LOCK,
+            WAKE_LOCK_TAG
+        )
+        wakeLock.setReferenceCounted(false)
+        
         createNotificationChannel()
         initializePlayer()
         initializeMediaSessions()
@@ -77,11 +95,19 @@ class PlayerService : MediaSessionService() {
     }
 
     private fun initializePlayer() {
-        player = ExoPlayer.Builder(this).build()
+        player = ExoPlayer.Builder(this).apply {
+            setWakeMode(PowerManager.PARTIAL_WAKE_LOCK)
+            setHandleAudioBecomingNoisy(true)
+        }.build()
         
         player.addListener(object : PlayerListenerAdapter() {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 Log.d(TAG, "▶️ Playback state: ${if (isPlaying) "PLAYING" else "PAUSED"}")
+                
+                if (isPlaying) {
+                    acquireWakeLock()
+                }
+                
                 updateMediaSessionState()
                 updateNotification()
                 updateWidget()
@@ -89,14 +115,62 @@ class PlayerService : MediaSessionService() {
             }
             
             override fun onPlaybackStateChanged(playbackState: Int) {
+                Log.d(TAG, "🎵 Playback state changed: $playbackState")
+                
                 when (playbackState) {
                     Player.STATE_ENDED -> {
                         Log.d(TAG, "⏹️ Track ended")
-                        if (!isIsolateMode) playNext()
+                        if (!isIsolateMode) {
+                            acquireWakeLock()
+                            handler.post {
+                                Log.d(TAG, "🔄 Handler: Playing next song")
+                                playNext()
+                            }
+                        } else {
+                            releaseWakeLock()
+                        }
+                    }
+                    Player.STATE_READY -> {
+                        Log.d(TAG, "✅ Player ready")
+                        if (player.playWhenReady) {
+                            acquireWakeLock()
+                        }
+                    }
+                    Player.STATE_BUFFERING -> {
+                        Log.d(TAG, "⏳ Buffering")
+                        acquireWakeLock()
+                    }
+                    Player.STATE_IDLE -> {
+                        Log.d(TAG, "💤 Player idle")
+                        if (!player.playWhenReady) {
+                            releaseWakeLock()
+                        }
                     }
                 }
             }
         })
+    }
+
+    private fun acquireWakeLock() {
+        try {
+            if (!wakeLock.isHeld) {
+                wakeLock.acquire(60000) // 60 second timeout
+                Log.d(TAG, "🔒 Wake lock acquired")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to acquire wake lock", e)
+        }
+    }
+
+    private fun releaseWakeLock() {
+        try {
+            if (wakeLock.isHeld) {
+                wakeLock.release()
+                Log.d(TAG, "🔓 Wake lock released")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Failed to release wake lock", e)
+        }
     }
 
     private fun initializeMediaSessions() {
@@ -162,6 +236,8 @@ class PlayerService : MediaSessionService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+        
         val action = intent?.action
         Log.d(TAG, "")
         Log.d(TAG, "========================================")
@@ -175,6 +251,8 @@ class PlayerService : MediaSessionService() {
             ACTION_PREV -> handlePrevAction()
             ACTION_SHUFFLE_TOGGLE -> handleShuffleToggle()
             ACTION_SHUFFLE -> handleShuffleSet(intent)
+            ACTION_SEEK -> handleSeekAction(intent)
+            ACTION_REQUEST_PROGRESS -> broadcastProgress()
             ACTION_STOP -> handleStopAction()
             else -> Log.w(TAG, "⚠️ Unknown action: $action")
         }
@@ -183,12 +261,13 @@ class PlayerService : MediaSessionService() {
     }
 
     // ==================== Action Handlers ====================
-    
+
     private fun handlePlayAction(intent: Intent) {
-        val index = intent.getIntExtra(EXTRA_INDEX, 0)
         isIsolateMode = intent.getBooleanExtra(EXTRA_ISOLATE_MODE, false)
         
-        Log.d(TAG, "▶️ Play: index=$index, isolate=$isIsolateMode")
+        val songUriString = intent.getStringExtra(EXTRA_SONG_URI)
+        
+        Log.d(TAG, "▶️ Play: URI=$songUriString, isolate=$isIsolateMode")
         
         currentSongList = scanSongs(this)
         
@@ -197,15 +276,31 @@ class PlayerService : MediaSessionService() {
             return
         }
         
+        Log.d(TAG, "📚 Total songs available: ${currentSongList.size}")
+        
+        val requestedSong = if (songUriString != null) {
+            currentSongList.find { it.uri.toString() == songUriString }
+        } else {
+            val index = intent.getIntExtra(EXTRA_INDEX, 0)
+            currentSongList.getOrNull(index)
+        }
+        
+        if (requestedSong == null) {
+            Log.w(TAG, "⚠️ Requested song not found")
+            return
+        }
+        
+        Log.d(TAG, "🎯 User requested: ${requestedSong.title} by ${requestedSong.artist}")
+        Log.d(TAG, "📁 URI: ${requestedSong.uri}")
+        
         if (isIsolateMode) {
-            isolatedSong = currentSongList.getOrNull(index)
-            isolatedSong?.let {
-                PlaybackQueue.set(listOf(it), 0)
-                playCurrent()
-            }
+            isolatedSong = requestedSong
+            PlaybackQueue.set(listOf(requestedSong), 0)
+            Log.d(TAG, "🎯 Isolate mode: Playing only this song")
+            playCurrent()
         } else {
             isolatedSong = null
-            setupQueueAndPlay(index)
+            setupQueueAndPlaySong(requestedSong)
         }
     }
 
@@ -214,11 +309,15 @@ class PlayerService : MediaSessionService() {
         
         if (player.isPlaying) {
             player.pause()
+            releaseWakeLock()
         } else {
             if (PlaybackQueue.current() == null) {
+                Log.d(TAG, "🆕 No song in queue, loading last played or first song")
                 playLastOrFirstSong()
             } else {
+                Log.d(TAG, "▶️ Resuming playback")
                 player.play()
+                acquireWakeLock()
             }
         }
     }
@@ -231,6 +330,7 @@ class PlayerService : MediaSessionService() {
             return
         }
         
+        acquireWakeLock()
         playNext()
     }
 
@@ -251,6 +351,7 @@ class PlayerService : MediaSessionService() {
             player.play()
         } else {
             Log.d(TAG, "⬅️ <3s: Going to previous track")
+            acquireWakeLock()
             playPrevious()
         }
     }
@@ -260,7 +361,9 @@ class PlayerService : MediaSessionService() {
         saveShuffleState()
         Log.d(TAG, "🔀 Shuffle toggled: $isShuffled")
         
-        if (!isIsolateMode) reshuffleQueue()
+        if (!isIsolateMode && PlaybackQueue.current() != null) {
+            reshuffleQueue()
+        }
         
         updateMediaSessionState()
         updateNotification()
@@ -272,12 +375,15 @@ class PlayerService : MediaSessionService() {
         saveShuffleState()
         Log.d(TAG, "🔀 Shuffle set: $isShuffled")
         
-        if (!isIsolateMode) reshuffleQueue()
+        if (!isIsolateMode && PlaybackQueue.current() != null) {
+            reshuffleQueue()
+        }
     }
 
     private fun handleStopAction() {
         Log.d(TAG, "⏹️ Stopping service")
         player.stop()
+        releaseWakeLock()
         mediaSessionCompat.isActive = false
         stopForeground(STOP_FOREGROUND_REMOVE)
         
@@ -286,14 +392,41 @@ class PlayerService : MediaSessionService() {
         
         stopSelf()
     }
+    
+    private fun handleSeekAction(intent: Intent) {
+        val position = intent.getIntExtra(EXTRA_SEEK_POSITION, 0)
+        Log.d(TAG, "⏩ Seeking to: ${position}ms")
+        if (player.duration > 0) {
+            player.seekTo(position.toLong())
+        }
+        broadcastProgress()
+    }
 
     // ==================== Playback Logic ====================
     
-    private fun setupQueueAndPlay(startIndex: Int) {
-        val queue = if (isShuffled) currentSongList.shuffled() else currentSongList
-        val adjustedIndex = if (isShuffled) 0 else startIndex.coerceIn(0, queue.size - 1)
+    private fun setupQueueAndPlaySong(requestedSong: Song) {
+        Log.d(TAG, "🔧 Setting up queue for: ${requestedSong.title}")
         
-        PlaybackQueue.set(queue, adjustedIndex)
+        val queue = if (isShuffled) {
+            Log.d(TAG, "🔀 Shuffling queue...")
+            currentSongList.shuffled()
+        } else {
+            Log.d(TAG, "📋 Sequential queue")
+            currentSongList
+        }
+        
+        val songIndex = queue.indexOfFirst { it.uri == requestedSong.uri }
+        
+        if (songIndex == -1) {
+            Log.e(TAG, "❌ ERROR: Requested song not found in queue!")
+            Log.e(TAG, "   Looking for URI: ${requestedSong.uri}")
+            PlaybackQueue.set(queue, 0)
+        } else {
+            Log.d(TAG, "✅ Found song at queue position: $songIndex")
+            PlaybackQueue.set(queue, songIndex)
+        }
+        
+        Log.d(TAG, "📋 Queue size: ${queue.size}, Starting at: $songIndex")
         playCurrent()
     }
 
@@ -313,21 +446,39 @@ class PlayerService : MediaSessionService() {
     }
 
     private fun playCurrent() {
-        val song = PlaybackQueue.current() ?: return
+        val song = PlaybackQueue.current()
         
-        Log.d(TAG, "🎵 Now playing: ${song.title} - ${song.artist}")
+        if (song == null) {
+            Log.e(TAG, "❌ ERROR: PlaybackQueue.current() returned null!")
+            return
+        }
+        
+        Log.d(TAG, "")
+        Log.d(TAG, "========================================")
+        Log.d(TAG, "🎵 NOW PLAYING")
+        Log.d(TAG, "   Title: ${song.title}")
+        Log.d(TAG, "   Artist: ${song.artist}")
+        Log.d(TAG, "   URI: ${song.uri}")
+        Log.d(TAG, "========================================")
         
         saveLastPlayedSong(song)
+        
+        player.stop()
+        
+        val notification = createNotification(song)
+        startForeground(NOTIFICATION_ID, notification)
         
         val mediaItem = MediaItem.fromUri(song.uri)
         player.setMediaItem(mediaItem)
         player.prepare()
-        player.playWhenReady = true        
-        val notification = createNotification(song)
-        startForeground(NOTIFICATION_ID, notification)
         
-        updateWidget()
-        broadcastPlaybackState(true)
+        handler.postDelayed({
+            player.playWhenReady = true
+            Log.d(TAG, "▶️ Playback started")
+            
+            updateWidget()
+            broadcastPlaybackState(true)
+        }, 100)
     }
 
     private fun playNext() {
@@ -345,17 +496,39 @@ class PlayerService : MediaSessionService() {
     }
 
     private fun playLastOrFirstSong() {
+        Log.d(TAG, "🔍 Initializing playback...")
+        
         val songs = scanSongs(this)
-        if (songs.isEmpty()) return
+        if (songs.isEmpty()) {
+            Log.w(TAG, "⚠️ No songs found on device")
+            return
+        }
+        
+        Log.d(TAG, "📚 Found ${songs.size} songs")
         
         val lastSongUri = prefs.getString(KEY_LAST_SONG_URI, null)
-        val songToPlay = lastSongUri?.let { uri ->
-            songs.find { it.uri.toString() == uri }
-        } ?: songs.first()
+        val songToPlay = if (lastSongUri != null) {
+            val found = songs.find { it.uri.toString() == lastSongUri }
+            if (found != null) {
+                Log.d(TAG, "💿 Restoring last played: ${found.title}")
+                found
+            } else {
+                Log.d(TAG, "⚠️ Last played song not found, using first song")
+                songs.first()
+            }
+        } else {
+            Log.d(TAG, "🆕 No previous playback, using first song")
+            songs.first()
+        }
         
-        val index = songs.indexOf(songToPlay)
         currentSongList = songs
-        PlaybackQueue.set(songs, index)
+        
+        val queue = if (isShuffled) songs.shuffled() else songs
+        val index = queue.indexOfFirst { it.uri == songToPlay.uri }
+        
+        PlaybackQueue.set(queue, maxOf(0, index))
+        
+        Log.d(TAG, "✅ Initialized with: ${songToPlay.title} at index $index")
         playCurrent()
     }
     
@@ -413,30 +586,23 @@ class PlayerService : MediaSessionService() {
         val playPauseIcon = if (player.isPlaying) R.drawable.ic_pause else R.drawable.ic_play
         val playPauseText = if (player.isPlaying) "Pause" else "Play"
         
-        // ========================================
-        // KAFKA ANIMATION LOGIC - Same as MainActivity
-        // Use kafka_playing when playing, kafka_idle when paused
-        // ========================================
         val kafkaArtwork = if (player.isPlaying) {
             BitmapFactory.decodeResource(resources, R.drawable.kafka_playing)
         } else {
             BitmapFactory.decodeResource(resources, R.drawable.kafka_idle)
         }
         
-        // Kafka-themed subtitle with elegant status indicators
         val subtitle = when {
             isIsolateMode -> "🎯 Isolated Playback"
             isShuffled -> "🔀 Shuffle Mode"
             else -> "♠️ Sequential"
         }
 
-        // Kafka color scheme matching the app
-        val kafkaThreadColor = android.graphics.Color.parseColor("#E84393") // kafka_thread_bright
-        val kafkaWineColor = android.graphics.Color.parseColor("#641E3E") // kafka_wine
+        val kafkaThreadColor = android.graphics.Color.parseColor("#E84393")
         
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_play) // Use existing play icon for small notification icon
-            .setLargeIcon(kafkaArtwork) // ✨ Kafka chibi changes based on playing state
+            .setSmallIcon(R.drawable.ic_play)
+            .setLargeIcon(kafkaArtwork)
             .setContentTitle(song.title)
             .setContentText(song.artist)
             .setSubText(subtitle)
@@ -448,9 +614,8 @@ class PlayerService : MediaSessionService() {
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
-            .setColor(kafkaThreadColor) // Kafka's signature pink/thread color
-            .setColorized(false) // Keep it subtle and elegant
-            // Previous button
+            .setColor(kafkaThreadColor)
+            .setColorized(false)
             .addAction(
                 NotificationCompat.Action.Builder(
                     R.drawable.ic_previous,
@@ -461,7 +626,6 @@ class PlayerService : MediaSessionService() {
                     )
                 ).build()
             )
-            // Play/Pause button
             .addAction(
                 NotificationCompat.Action.Builder(
                     playPauseIcon,
@@ -472,7 +636,6 @@ class PlayerService : MediaSessionService() {
                     )
                 ).build()
             )
-            // Next button
             .addAction(
                 NotificationCompat.Action.Builder(
                     R.drawable.ic_next,
@@ -495,11 +658,6 @@ class PlayerService : MediaSessionService() {
         val song = PlaybackQueue.current() ?: return
         val notification = createNotification(song)
         
-        // ========================================
-        // NOTIFICATION BEHAVIOR
-        // When paused: dismissible (detach from foreground)
-        // When playing: persistent (stay in foreground)
-        // ========================================
         if (!player.isPlaying) {
             Log.d(TAG, "⏸️ Paused - notification is dismissible")
             stopForeground(STOP_FOREGROUND_DETACH)
@@ -521,6 +679,17 @@ class PlayerService : MediaSessionService() {
         }
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
+    
+    private fun broadcastProgress() {
+        val currentPos = if (player.duration > 0) player.currentPosition.toInt() else 0
+        val duration = if (player.duration > 0) player.duration.toInt() else 0
+        
+        val intent = Intent(MainActivity.ACTION_UPDATE_PROGRESS).apply {
+            putExtra(MainActivity.EXTRA_CURRENT_POSITION, currentPos)
+            putExtra(MainActivity.EXTRA_DURATION, duration)
+        }
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
 
     private fun updateWidget() {
         val song = PlaybackQueue.current()
@@ -533,12 +702,30 @@ class PlayerService : MediaSessionService() {
         )
     }
 
+    override fun onTaskRemoved(intent: Intent?) {
+        super.onTaskRemoved(intent)
+        
+        Log.d(TAG, "📱 Task removed - keeping service alive")
+        
+        if (player.isPlaying) {
+            Log.d(TAG, "▶️ Still playing, service will continue")
+            
+            val song = PlaybackQueue.current()
+            if (song != null) {
+                val notification = createNotification(song)
+                startForeground(NOTIFICATION_ID, notification)
+            }
+        }
+    }
+
     // ==================== Lifecycle ====================
     
     override fun onGetSession(info: MediaSession.ControllerInfo): MediaSession = session
 
     override fun onDestroy() {
         Log.d(TAG, "========== SERVICE DESTROYED ==========")
+        releaseWakeLock()
+        handler.removeCallbacksAndMessages(null)
         mediaSessionCompat.isActive = false
         mediaSessionCompat.release()
         player.release()
@@ -546,5 +733,5 @@ class PlayerService : MediaSessionService() {
         super.onDestroy()
     }
 
-    override fun onBind(intent: Intent?): IBinder? = null
+    override fun onBind(intent: Intent?): IBinder? = super.onBind(intent)
 }
