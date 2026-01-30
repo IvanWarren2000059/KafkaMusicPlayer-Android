@@ -44,6 +44,7 @@ class PlayerService : MediaSessionService() {
         private const val TAG = "PlayerService"
         private const val WAKE_LOCK_TAG = "MusicPlayer:WakeLock"
         const val EXTRA_SONG_URI = "SONG_URI"
+        const val ACTION_DISMISS = "DISMISS"
 
         const val ACTION_PLAY = "PLAY"
         const val ACTION_PLAY_PAUSE = "PLAY_PAUSE"
@@ -254,6 +255,8 @@ class PlayerService : MediaSessionService() {
             ACTION_SEEK -> handleSeekAction(intent)
             ACTION_REQUEST_PROGRESS -> broadcastProgress()
             ACTION_STOP -> handleStopAction()
+            ACTION_DISMISS -> handleDismissAction()  // ✅ NEW
+
             else -> Log.w(TAG, "⚠️ Unknown action: $action")
         }
         
@@ -304,24 +307,51 @@ class PlayerService : MediaSessionService() {
         }
     }
 
-    private fun handlePlayPauseAction() {
-        Log.d(TAG, "⏯️ Play/Pause (currently: ${if (player.isPlaying) "playing" else "paused"})")
+   private fun handlePlayPauseAction() {
+    Log.d(TAG, "⏯️ Play/Pause (currently: ${if (player.isPlaying) "playing" else "paused"})")
+    
+    if (player.isPlaying) {
+        player.pause()
+        releaseWakeLock()
         
-        if (player.isPlaying) {
-            player.pause()
-            releaseWakeLock()
+        handler.postDelayed({
+            updateNotification()
+        }, 100)
+        
+    } else {
+        if (PlaybackQueue.current() == null) {
+            Log.d(TAG, "🆕 No song in queue, loading last played or first song")
+            playLastOrFirstSong()
         } else {
-            if (PlaybackQueue.current() == null) {
-                Log.d(TAG, "🆕 No song in queue, loading last played or first song")
-                playLastOrFirstSong()
-            } else {
-                Log.d(TAG, "▶️ Resuming playback")
-                player.play()
-                acquireWakeLock()
-            }
+            Log.d(TAG, "▶️ Resuming playback")
+            player.play()
+            acquireWakeLock()
+            
+            handler.postDelayed({
+                updateNotification()
+            }, 100)
         }
     }
+}
 
+    private fun handleDismissAction() {
+    Log.d(TAG, "🗑️ Notification dismissed")
+    
+    // If playing, pause first
+    if (player.isPlaying) {
+        player.pause()
+        releaseWakeLock()
+    }
+    
+    // Remove notification but keep service alive
+    stopForeground(STOP_FOREGROUND_REMOVE)
+    
+    // Broadcast pause state
+    broadcastPlaybackState(false)
+    updateWidget()
+    
+    Log.d(TAG, "✅ Notification dismissed, service still running in background")
+}
     private fun handleNextAction() {
         Log.d(TAG, "⏭️ Next (isolate=$isIsolateMode)")
         
@@ -564,95 +594,97 @@ class PlayerService : MediaSessionService() {
         }
     }
 
-    private fun createNotification(song: Song): Notification {
-        Log.d(TAG, "🔔 Creating Kafka notification for: ${song.title}")
-        
-        val openAppIntent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
-        val openAppPendingIntent = PendingIntent.getActivity(
-            this, 0, openAppIntent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        val deleteIntent = Intent(this, PlayerService::class.java).apply {
-            action = ACTION_STOP
-        }
-        val deletePendingIntent = PendingIntent.getService(
-            this, 0, deleteIntent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        val playPauseIcon = if (player.isPlaying) R.drawable.ic_pause else R.drawable.ic_play
-        val playPauseText = if (player.isPlaying) "Pause" else "Play"
-        
-        val kafkaArtwork = if (player.isPlaying) {
-            BitmapFactory.decodeResource(resources, R.drawable.kafka_playing)
-        } else {
-            BitmapFactory.decodeResource(resources, R.drawable.kafka_idle)
-        }
-        
-        val subtitle = when {
-            isIsolateMode -> "🎯 Isolated Playback"
-            isShuffled -> "🔀 Shuffle Mode"
-            else -> "♠️ Sequential"
-        }
-
-        val kafkaThreadColor = android.graphics.Color.parseColor("#E84393")
-        
-        return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_play)
-            .setLargeIcon(kafkaArtwork)
-            .setContentTitle(song.title)
-            .setContentText(song.artist)
-            .setSubText(subtitle)
-            .setContentIntent(openAppPendingIntent)
-            .setDeleteIntent(deletePendingIntent)
-            .setOngoing(player.isPlaying)
-            .setOnlyAlertOnce(true)
-            .setShowWhen(false)
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setCategory(NotificationCompat.CATEGORY_SERVICE)
-            .setColor(kafkaThreadColor)
-            .setColorized(false)
-            .addAction(
-                NotificationCompat.Action.Builder(
-                    R.drawable.ic_previous,
-                    "Previous",
-                    androidx.media.session.MediaButtonReceiver.buildMediaButtonPendingIntent(
-                        this,
-                        PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
-                    )
-                ).build()
-            )
-            .addAction(
-                NotificationCompat.Action.Builder(
-                    playPauseIcon,
-                    playPauseText,
-                    androidx.media.session.MediaButtonReceiver.buildMediaButtonPendingIntent(
-                        this,
-                        PlaybackStateCompat.ACTION_PLAY_PAUSE
-                    )
-                ).build()
-            )
-            .addAction(
-                NotificationCompat.Action.Builder(
-                    R.drawable.ic_next,
-                    "Next",
-                    androidx.media.session.MediaButtonReceiver.buildMediaButtonPendingIntent(
-                        this,
-                        PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-                    )
-                ).build()
-            )
-            .setStyle(
-                androidx.media.app.NotificationCompat.MediaStyle()
-                    .setShowActionsInCompactView(0, 1, 2)
-                    .setMediaSession(mediaSessionCompat.sessionToken)
-            )
-            .build()
+   private fun createNotification(song: Song): Notification {
+    Log.d(TAG, "🔔 Creating Kafka notification for: ${song.title}")
+    
+    val openAppIntent = Intent(this, MainActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
     }
+    val openAppPendingIntent = PendingIntent.getActivity(
+        this, 0, openAppIntent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
+
+    // ✅ NEW: Separate action for swipe-to-dismiss
+    val deleteIntent = Intent(this, PlayerService::class.java).apply {
+        action = ACTION_DISMISS  // ✅ New dismiss action
+    }
+    val deletePendingIntent = PendingIntent.getService(
+        this, 1, deleteIntent,  // Different request code (1 instead of 0)
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
+
+    val playPauseIcon = if (player.isPlaying) R.drawable.ic_pause else R.drawable.ic_play
+    val playPauseText = if (player.isPlaying) "Pause" else "Play"
+    
+    val kafkaArtwork = if (player.isPlaying) {
+        BitmapFactory.decodeResource(resources, R.drawable.kafka_playing)
+    } else {
+        BitmapFactory.decodeResource(resources, R.drawable.kafka_idle)
+    }
+    
+    val subtitle = when {
+        isIsolateMode -> "🎯 Isolated Playback"
+        isShuffled -> "🔀 Shuffle Mode"
+        else -> "♠️ Sequential"
+    }
+
+    val kafkaThreadColor = android.graphics.Color.parseColor("#E84393")
+    
+    return NotificationCompat.Builder(this, CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_play)
+        .setLargeIcon(kafkaArtwork)
+        .setContentTitle(song.title)
+        .setContentText(song.artist)
+        .setSubText(subtitle)
+        .setContentIntent(openAppPendingIntent)
+        .setDeleteIntent(deletePendingIntent)  // ✅ Swipe dismisses notification
+        .setOngoing(player.isPlaying)  // ✅ Only dismissible when paused
+        .setOnlyAlertOnce(true)
+        .setShowWhen(false)
+        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+        .setPriority(NotificationCompat.PRIORITY_LOW)
+        .setCategory(NotificationCompat.CATEGORY_SERVICE)
+        .setColor(kafkaThreadColor)
+        .setColorized(false)
+        .addAction(
+            NotificationCompat.Action.Builder(
+                R.drawable.ic_previous,
+                "Previous",
+                androidx.media.session.MediaButtonReceiver.buildMediaButtonPendingIntent(
+                    this,
+                    PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
+                )
+            ).build()
+        )
+        .addAction(
+            NotificationCompat.Action.Builder(
+                playPauseIcon,
+                playPauseText,
+                androidx.media.session.MediaButtonReceiver.buildMediaButtonPendingIntent(
+                    this,
+                    PlaybackStateCompat.ACTION_PLAY_PAUSE
+                )
+            ).build()
+        )
+        .addAction(
+            NotificationCompat.Action.Builder(
+                R.drawable.ic_next,
+                "Next",
+                androidx.media.session.MediaButtonReceiver.buildMediaButtonPendingIntent(
+                    this,
+                    PlaybackStateCompat.ACTION_SKIP_TO_NEXT
+                )
+            ).build()
+        )
+        .setStyle(
+            androidx.media.app.NotificationCompat.MediaStyle()
+                .setShowActionsInCompactView(0, 1, 2)
+                .setMediaSession(mediaSessionCompat.sessionToken)
+        )
+        .build()
+}
+
 
     private fun updateNotification() {
         val song = PlaybackQueue.current() ?: return
