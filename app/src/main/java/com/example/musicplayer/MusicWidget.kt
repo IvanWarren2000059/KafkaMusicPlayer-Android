@@ -1,5 +1,7 @@
 package com.example.musicplayer
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -21,8 +23,8 @@ class MusicWidget : AppWidgetProvider() {
         const val ACTION_PREV = "com.example.musicplayer.WIDGET_PREV"
         const val ACTION_SHUFFLE = "com.example.musicplayer.WIDGET_SHUFFLE"
         
-        fun updateWidget(context: Context, songTitle: String, artist: String, isPlaying: Boolean) {
-            Log.d(TAG, "📄 Updating widget: $songTitle - $artist (playing: $isPlaying)")
+        fun updateWidget(context: Context, songTitle: String, artist: String, isPlaying: Boolean, bpm: Float = 120f) {
+            Log.d(TAG, "🔄 Updating widget: $songTitle - $artist (playing: $isPlaying, BPM: $bpm)")
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val componentName = ComponentName(context, MusicWidget::class.java)
             val appWidgetIds = appWidgetManager.getAppWidgetIds(componentName)
@@ -30,7 +32,7 @@ class MusicWidget : AppWidgetProvider() {
             Log.d(TAG, "📱 Found ${appWidgetIds.size} widget(s)")
             
             appWidgetIds.forEach { widgetId ->
-                updateAppWidget(context, appWidgetManager, widgetId, songTitle, artist, isPlaying)
+                updateAppWidget(context, appWidgetManager, widgetId, songTitle, artist, isPlaying, bpm)
             }
         }
     }
@@ -127,38 +129,41 @@ private fun updateAppWidget(
     appWidgetId: Int,
     songTitle: String,
     artist: String,
-    isPlaying: Boolean
+    isPlaying: Boolean,
+    bpm: Float = 120f
 ) {
     Log.d("MusicWidget", "🎨 Creating RemoteViews for widget $appWidgetId")
-    Log.d("MusicWidget", "Package: ${context.packageName}")
     
     try {
         val views = RemoteViews(context.packageName, R.layout.kafka_widget)
-        Log.d("MusicWidget", "✅ RemoteViews created successfully")
         
         // Set text
         views.setTextViewText(R.id.widgetSongTitle, songTitle)
         views.setTextViewText(R.id.widgetArtist, artist)
-        Log.d("MusicWidget", "✅ Text set: $songTitle - $artist")
         
         // Set play/pause icon
         views.setImageViewResource(
             R.id.widgetPlayPauseBtn,
             if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play
         )
-        Log.d("MusicWidget", "✅ Play/Pause icon set")
         
-        // KAFKA ANIMATION
+        // FIXED: Proper Kafka chibi visibility handling
         if (isPlaying) {
-            Log.d("MusicWidget", "🎵 Showing playing animation")
+            // Show PLAYING Kafka chibi (visible)
             views.setViewVisibility(R.id.widgetKafkaIdle, View.GONE)
             views.setViewVisibility(R.id.widgetKafkaPlaying, View.VISIBLE)
+            
+            // Note: Widget pulsation is handled in MainActivity via WidgetPulsator
+            // RemoteViews doesn't support complex animations, so we rely on the service
+            
         } else {
-            Log.d("MusicWidget", "⏸️ Showing idle animation")
+            // Show IDLE Kafka chibi (visible)
             views.setViewVisibility(R.id.widgetKafkaIdle, View.VISIBLE)
             views.setViewVisibility(R.id.widgetKafkaPlaying, View.GONE)
         }
-        Log.d("MusicWidget", "✅ Kafka animation state set")
+        
+        // Background logo stays simple - just kafka_logo_2 PNG
+        // Alpha is set in XML (0.40 for good visibility)
         
         // Set click listeners
         views.setOnClickPendingIntent(
@@ -177,7 +182,6 @@ private fun updateAppWidget(
             R.id.widgetShuffleBtn,
             getPendingIntent(context, MusicWidget.ACTION_SHUFFLE)
         )
-        Log.d("MusicWidget", "✅ Click listeners set")
         
         // Set title click to open app
         val openAppIntent = Intent(context, MainActivity::class.java).apply {
@@ -188,15 +192,12 @@ private fun updateAppWidget(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         views.setOnClickPendingIntent(R.id.widgetTitle, openAppPendingIntent)
-        Log.d("MusicWidget", "✅ App launch intent set")
         
-        // Update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views)
-        Log.d("MusicWidget", "✅ Widget $appWidgetId updated successfully")
+        Log.d("MusicWidget", "✅ Widget updated successfully")
         
     } catch (e: Exception) {
-        Log.e("MusicWidget", "❌ Error updating widget $appWidgetId: ${e.message}", e)
-        e.printStackTrace()
+        Log.e("MusicWidget", "❌ Error updating widget: ${e.message}", e)
     }
 }
 

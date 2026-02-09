@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.BitmapFactory
+import android.media.audiofx.Visualizer
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
@@ -32,11 +33,15 @@ class PlayerService : MediaSessionService() {
     private lateinit var prefs: SharedPreferences
     private lateinit var notificationManager: NotificationManager
     private lateinit var wakeLock: PowerManager.WakeLock
-    
+    private lateinit var widgetPulsator: WidgetPulsator
+
     private var isShuffled = false
     private var isIsolateMode = false
     private var isolatedSong: Song? = null
     private var currentSongList: List<Song> = emptyList()
+    
+    // Visualizer for beat-synced thread animation
+    private var visualizer: Visualizer? = null
     
     private val handler = Handler(Looper.getMainLooper())
 
@@ -44,6 +49,8 @@ class PlayerService : MediaSessionService() {
         private const val TAG = "PlayerService"
         private const val WAKE_LOCK_TAG = "MusicPlayer:WakeLock"
         const val EXTRA_SONG_URI = "SONG_URI"
+        const val EXTRA_SONG_TITLE = "SONG_TITLE"
+        const val EXTRA_SONG_ARTIST = "SONG_ARTIST"
         const val ACTION_DISMISS = "DISMISS"
 
         const val ACTION_PLAY = "PLAY"
@@ -55,6 +62,13 @@ class PlayerService : MediaSessionService() {
         const val ACTION_STOP = "STOP"
         const val ACTION_SEEK = "SEEK"
         const val ACTION_REQUEST_PROGRESS = "REQUEST_PROGRESS"
+        
+        
+        // Visualizer broadcast
+        const val ACTION_VISUALIZER_DATA = "VISUALIZER_DATA"
+        const val EXTRA_BASS_INTENSITY = "BASS_INTENSITY"      // 0-100, even threads (steady glow on small dB changes)
+        const val EXTRA_TREBLE_INTENSITY = "TREBLE_INTENSITY"  // 0-100, odd threads (intense glow on 3+ dB spikes)
+        const val EXTRA_BPM = "BPM"                            // 60-200, glow pulse rate
         
         const val EXTRA_INDEX = "INDEX"
         const val EXTRA_ISOLATE_MODE = "ISOLATE_MODE"
@@ -91,7 +105,8 @@ class PlayerService : MediaSessionService() {
         initializePlayer()
         initializeMediaSessions()
         restoreState()
-        
+            widgetPulsator = WidgetPulsator(this)
+
         Log.d(TAG, "Service initialization complete")
     }
 
@@ -107,6 +122,10 @@ class PlayerService : MediaSessionService() {
                 
                 if (isPlaying) {
                     acquireWakeLock()
+                    widgetPulsator.startPulsation()
+                    startVisualizer()
+                } else {
+                    stopVisualizer()
                 }
                 
                 updateMediaSessionState()
@@ -121,6 +140,7 @@ class PlayerService : MediaSessionService() {
                 when (playbackState) {
                     Player.STATE_ENDED -> {
                         Log.d(TAG, "⏹️ Track ended")
+                        stopVisualizer()
                         if (!isIsolateMode) {
                             acquireWakeLock()
                             handler.post {
@@ -145,6 +165,8 @@ class PlayerService : MediaSessionService() {
                         Log.d(TAG, "💤 Player idle")
                         if (!player.playWhenReady) {
                             releaseWakeLock()
+                            widgetPulsator.stopPulsation()
+                            stopVisualizer()
                         }
                     }
                 }
@@ -174,6 +196,213 @@ class PlayerService : MediaSessionService() {
         }
     }
 
+
+    // ========== VISUALIZER ==========
+    
+    private fun startVisualizer() {
+        if (visualizer != null) {
+            visualizer?.enabled = true
+            Log.d(TAG, "🎵 Visualizer resumed")
+            return
+        }
+        
+        try {
+            val audioSessionId = player.audioSessionId
+            
+            visualizer = Visualizer(audioSessionId).apply {
+                captureSize = Visualizer.getCaptureSizeRange()[1]
+                
+                setDataCaptureListener(object : Visualizer.OnDataCaptureListener {
+                    private var frameCount = 0
+                    
+                    // BPM detection
+                    private val beatHistory = mutableListOf<Long>()
+                    private var lastBeatTime = 0L
+                    private var detectedBpm = 120.0 // Default BPM
+                    
+                    // Energy smoothing for baseline calculation
+                    private var previousBassEnergy = 0.0
+                    private val bassEnergyHistory = mutableListOf<Double>()
+                    private val energyThreshold = 1.3 // Beat detected when energy spikes 30% above average
+                    
+                    // 5-second average intensity tracking (for new baseline system)
+                    private val intensityHistory = mutableListOf<Double>()
+                    private val HISTORY_SIZE = 150 // ~5 seconds at ~30 fps capture rate
+                    private var fiveSecondAverage = 0.0
+                    private var baselineIntensity = 0.0 // -5 less than 5-second average
+                    
+                    override fun onWaveFormDataCapture(
+                        v: Visualizer?, 
+                        waveform: ByteArray?, 
+                        samplingRate: Int
+                    ) {
+                        // Not used - we use FFT instead for frequency analysis
+                    }
+                    
+                    override fun onFftDataCapture(
+                        v: Visualizer?, 
+                        fft: ByteArray?, 
+                        samplingRate: Int
+                    ) {
+                        if (fft == null) return
+                        
+                        // ========== FREQUENCY ANALYSIS (Hz) ==========
+                        var bassEnergy = 0.0    // 20-250 Hz (kick drum, bass) -> EVEN THREADS baseline
+                        var midEnergy = 0.0     // 250-2000 Hz (vocals, melody)
+                        var trebleEnergy = 0.0  // 2000-8000 Hz (cymbals, hi-hats) -> ODD THREADS spikes
+                        
+                        val fftSize = fft.size / 2
+                        val binSize = samplingRate / 2.0 / fftSize // Hz per bin
+                        
+                        // Analyze frequency bins
+                        for (i in 0 until fftSize step 2) {
+                            val magnitude = Math.sqrt(
+                                (fft[i].toDouble() * fft[i].toDouble() + 
+                                 fft[i + 1].toDouble() * fft[i + 1].toDouble())
+                            )
+                            
+                            val frequency = i * binSize / 2
+                            
+                            when {
+                                frequency < 250 -> bassEnergy += magnitude
+                                frequency < 2000 -> midEnergy += magnitude
+                                frequency < 8000 -> trebleEnergy += magnitude
+                            }
+                        }
+                        
+                        // ========== TRACK AVERAGE BASS ENERGY (EVEN THREAD BASELINE) ==========
+                        bassEnergyHistory.add(bassEnergy)
+                        if (bassEnergyHistory.size > 30) { // Keep last ~1 second of data
+                            bassEnergyHistory.removeAt(0)
+                        }
+                        val averageBassEnergy = if (bassEnergyHistory.size > 0) {
+                            bassEnergyHistory.average()
+                        } else {
+                            bassEnergy
+                        }
+                        
+                        // ========== BPM DETECTION ==========
+                        val currentTime = System.currentTimeMillis()
+                        
+                        if (bassEnergy > previousBassEnergy * energyThreshold) {
+                            if (currentTime - lastBeatTime > 300) { // Minimum 300ms between beats
+                                beatHistory.add(currentTime)
+                                
+                                if (beatHistory.size > 8) {
+                                    beatHistory.removeAt(0)
+                                }
+                                
+                                if (beatHistory.size >= 4) {
+                                    val intervals = mutableListOf<Long>()
+                                    for (i in 1 until beatHistory.size) {
+                                        intervals.add(beatHistory[i] - beatHistory[i - 1])
+                                    }
+                                    val averageInterval = intervals.average()
+                                    detectedBpm = (60000.0 / averageInterval).coerceIn(60.0, 200.0)
+                                }
+                                
+                                lastBeatTime = currentTime
+                            }
+                        }
+                        
+                        previousBassEnergy = bassEnergy
+                        
+                        // ========== DECIBEL-BASED INTENSITY CALCULATION ==========
+                        // Calculate total magnitude across all frequencies
+                        val totalEnergy = bassEnergy + midEnergy + trebleEnergy
+                        
+                        // Convert to decibels (dB)
+                        // dB = 20 * log10(magnitude / reference)
+                        // Using a reference value to normalize
+                        val referenceLevel = 1.0
+                        val currentDb = if (totalEnergy > 0) {
+                            20 * Math.log10(totalEnergy / referenceLevel)
+                        } else {
+                            -96.0 // Silence threshold
+                        }
+                        
+                        // Track previous dB level
+                        val previousDb = if (intensityHistory.isNotEmpty()) {
+                            intensityHistory.last()
+                        } else {
+                            currentDb
+                        }
+                        
+                        // Calculate dB change from previous frame
+                        val dbChange = Math.abs(currentDb - previousDb)
+                        
+                        // Store current dB in history (we use this to track previous)
+                        intensityHistory.add(currentDb)
+                        if (intensityHistory.size > HISTORY_SIZE) {
+                            intensityHistory.removeAt(0)
+                        }
+                        
+                        // Calculate 5-second average dB for reference
+                        fiveSecondAverage = if (intensityHistory.size >= 30) {
+                            intensityHistory.average()
+                        } else {
+                            currentDb
+                        }
+                        
+                        // Normalize dB to 0-100 range for display
+                        // Typical range: -60 dB (quiet) to 0 dB (loud)
+                        val normalizedIntensity = ((currentDb + 60.0) / 60.0 * 100.0).coerceIn(0.0, 100.0)
+                        
+                        // ========== DETERMINE WHICH THREADS GLOW BASED ON dB CHANGE ==========
+                        val evenThreadIntensity: Double
+                        val oddThreadIntensity: Double
+                        
+                        if (dbChange >= 3.0) {
+                            // LARGE CHANGE (3+ dB): Odd threads glow INTENSELY
+                            oddThreadIntensity = (normalizedIntensity * 1.5).coerceIn(50.0, 100.0) // Intense glow
+                            evenThreadIntensity = (normalizedIntensity * 0.15).coerceIn(5.0, 15.0) // Very dim
+                        } else {
+                            // SMALL CHANGE (< 3 dB): Even threads glow, odd threads stay dim/off
+                            evenThreadIntensity = (normalizedIntensity * 0.6).coerceIn(20.0, 60.0) // Moderate glow
+                            oddThreadIntensity = 0.0 // Odd threads OFF
+                        }
+                        
+                        // Broadcast to UI
+                        broadcastVisualizerData(evenThreadIntensity, oddThreadIntensity, detectedBpm)
+                        
+                        // Debug logging
+                        frameCount++
+                        if (frameCount % 30 == 0) {
+                            val mode = if (dbChange >= 3.0) "ODD (Intense)" else "EVEN (Steady)"
+                            Log.d(TAG, "🎵 dB: ${String.format("%.1f", currentDb)} " +
+                                       "| ΔdB: ${String.format("%.2f", dbChange)} ($mode) " +
+                                       "| Even: ${String.format("%.1f", evenThreadIntensity)}% " +
+                                       "| Odd: ${String.format("%.1f", oddThreadIntensity)}% " +
+                                       "| BPM: ${String.format("%.0f", detectedBpm)}")
+                        }
+                    }
+                }, Visualizer.getMaxCaptureRate() / 2, false, true) // Enable FFT capture
+                
+                enabled = true
+                Log.d(TAG, "✅ Visualizer started - Session: $audioSessionId, Capture: $captureSize, Rate: ${Visualizer.getMaxCaptureRate() / 2} Hz")
+            }
+            
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Visualizer failed: ${e.message}")
+            e.printStackTrace()
+        }
+    }
+    
+    private fun stopVisualizer() {
+        visualizer?.enabled = false
+        visualizer?.release()
+        visualizer = null
+        Log.d(TAG, "🛑 Visualizer stopped")
+    }
+    
+    private fun broadcastVisualizerData(bassIntensity: Double, trebleIntensity: Double, bpm: Double) {
+        val intent = Intent(ACTION_VISUALIZER_DATA).apply {
+            putExtra(EXTRA_BASS_INTENSITY, bassIntensity)
+            putExtra(EXTRA_TREBLE_INTENSITY, trebleIntensity)
+            putExtra(EXTRA_BPM, bpm)
+        }
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
     private fun initializeMediaSessions() {
         session = MediaSession.Builder(this, player).build()
         
@@ -265,47 +494,57 @@ class PlayerService : MediaSessionService() {
 
     // ==================== Action Handlers ====================
 
-    private fun handlePlayAction(intent: Intent) {
-        isIsolateMode = intent.getBooleanExtra(EXTRA_ISOLATE_MODE, false)
+  private fun handlePlayAction(intent: Intent) {
+    isIsolateMode = intent.getBooleanExtra(EXTRA_ISOLATE_MODE, false)
+    
+    val songUriString = intent.getStringExtra(EXTRA_SONG_URI)
+    val songTitle = intent.getStringExtra(EXTRA_SONG_TITLE)
+    val songArtist = intent.getStringExtra(EXTRA_SONG_ARTIST)
+    
+    Log.d(TAG, "▶️ Play: URI=$songUriString, isolate=$isIsolateMode")
+    
+    currentSongList = scanSongs(this)
+    
+    Log.d(TAG, "📚 Total songs available: ${currentSongList.size}")
+    
+    val requestedSong = if (songUriString != null) {
+        // First try to find in scanned songs
+        var song = currentSongList.find { it.uri.toString() == songUriString }
         
-        val songUriString = intent.getStringExtra(EXTRA_SONG_URI)
-        
-        Log.d(TAG, "▶️ Play: URI=$songUriString, isolate=$isIsolateMode")
-        
-        currentSongList = scanSongs(this)
-        
-        if (currentSongList.isEmpty()) {
-            Log.w(TAG, "⚠️ No songs found")
-            return
+        // If not found (e.g., SD card file opened from file manager), create Song object from URI
+        if (song == null && songTitle != null) {
+            Log.d(TAG, "🆕 Song not in library, creating from external file")
+            song = Song(
+                title = songTitle,
+                artist = songArtist ?: "Unknown Artist",
+                uri = android.net.Uri.parse(songUriString)
+            )
         }
         
-        Log.d(TAG, "📚 Total songs available: ${currentSongList.size}")
-        
-        val requestedSong = if (songUriString != null) {
-            currentSongList.find { it.uri.toString() == songUriString }
-        } else {
-            val index = intent.getIntExtra(EXTRA_INDEX, 0)
-            currentSongList.getOrNull(index)
-        }
-        
-        if (requestedSong == null) {
-            Log.w(TAG, "⚠️ Requested song not found")
-            return
-        }
-        
-        Log.d(TAG, "🎯 User requested: ${requestedSong.title} by ${requestedSong.artist}")
-        Log.d(TAG, "📁 URI: ${requestedSong.uri}")
-        
-        if (isIsolateMode) {
-            isolatedSong = requestedSong
-            PlaybackQueue.set(listOf(requestedSong), 0)
-            Log.d(TAG, "🎯 Isolate mode: Playing only this song")
-            playCurrent()
-        } else {
-            isolatedSong = null
-            setupQueueAndPlaySong(requestedSong)
-        }
+        song
+    } else {
+        val index = intent.getIntExtra(EXTRA_INDEX, 0)
+        currentSongList.getOrNull(index)
     }
+    
+    if (requestedSong == null) {
+        Log.w(TAG, "⚠️ Requested song not found")
+        return
+    }
+    
+    Log.d(TAG, "🎯 User requested: ${requestedSong.title} by ${requestedSong.artist}")
+    Log.d(TAG, "📁 URI: ${requestedSong.uri}")
+    
+    if (isIsolateMode) {
+        isolatedSong = requestedSong
+        PlaybackQueue.set(listOf(requestedSong), 0)
+        Log.d(TAG, "🎯 Isolate mode: Playing only this song")
+        playCurrent()
+    } else {
+        isolatedSong = null
+        setupQueueAndPlaySong(requestedSong)
+    }
+}
 
    private fun handlePlayPauseAction() {
     Log.d(TAG, "⏯️ Play/Pause (currently: ${if (player.isPlaying) "playing" else "paused"})")
@@ -757,12 +996,15 @@ class PlayerService : MediaSessionService() {
     override fun onDestroy() {
         Log.d(TAG, "========== SERVICE DESTROYED ==========")
         releaseWakeLock()
+        stopVisualizer()
         handler.removeCallbacksAndMessages(null)
         mediaSessionCompat.isActive = false
         mediaSessionCompat.release()
         player.release()
         session.release()
         super.onDestroy()
+        widgetPulsator.stopPulsation()
+
     }
 
     override fun onBind(intent: Intent?): IBinder? = super.onBind(intent)

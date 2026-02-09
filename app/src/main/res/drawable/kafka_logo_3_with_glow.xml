@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Outer glow layer (vibrant lavender) -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#66B49FD4"/>
+            <size android:width="90dp" android:height="90dp"/>
+        </shape>
+    </item>
+    
+    <!-- Middle glow layer (bright lavender) -->
+    <item android:left="6dp" android:top="6dp" android:right="6dp" android:bottom="6dp">
+        <shape android:shape="oval">
+            <solid android:color="#99CBB5E5"/>
+            <size android:width="78dp" android:height="78dp"/>
+        </shape>
+    </item>
+    
+    <!-- Inner glow layer (pale lavender) -->
+    <item android:left="10dp" android:top="10dp" android:right="10dp" android:bottom="10dp">
+        <shape android:shape="oval">
+            <solid android:color="#CCD9CBF3"/>
+            <size android:width="70dp" android:height="70dp"/>
+        </shape>
+    </item>
+    
+    <!-- Logo -->
+    <item android:left="15dp" android:top="15dp" android:right="15dp" android:bottom="15dp">
+        <bitmap android:src="@drawable/kafka_logo_3" android:gravity="center"/>
+    </item>
+    
+</layer-list>

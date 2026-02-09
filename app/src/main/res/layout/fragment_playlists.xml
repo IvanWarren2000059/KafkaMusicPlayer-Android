@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- RecyclerView - clean, no background decorations -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/playlistRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:paddingBottom="80dp"
+        android:background="@android:color/transparent"/>
 
+    <!-- Empty state message -->
     <TextView
         android:id="@+id/emptyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="No playlists yet\nTap + to create one"
-        android:textColor="#9D7DBD"
+        android:textColor="@color/kafka_text_secondary"
         android:textSize="16sp"
         android:gravity="center"
+        android:fontFamily="sans-serif-light"
         android:visibility="gone"/>
 
 </FrameLayout>

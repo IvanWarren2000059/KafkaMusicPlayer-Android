@@ -1,294 +1,308 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- ========================================
-     MAIN ACTIVITY - activity_main.xml
-     ======================================== -->
-<androidx.constraintlayout.widget.ConstraintLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/kafka_gradient_bg">
-
-    <!-- Elegant Header with Kafka's name -->
-    <LinearLayout
-        android:id="@+id/headerLayout"
+    android:layout_height="match_parent">
+    
+    <!-- MAIN CONTENT -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintTop_toTopOf="parent">
-        
-        <TextView
-            android:id="@+id/appTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="KAFKA'S Music Player"
-            android:textColor="@color/kafka_pale_pink"
-            android:textSize="16sp"
-            android:fontFamily="serif"
-            android:textStyle="bold"
-            android:letterSpacing="0.15"
-            android:shadowColor="@color/kafka_thread_bright"
-            android:shadowRadius="8"
-            android:shadowDx="0"
-            android:shadowDy="0"/>
-        
-        <!-- Decorative underline -->
-        <View
-            android:layout_width="120dp"
-            android:layout_height="2dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/kafka_divider_gradient"/>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:background="@drawable/kafka_gradient_bg">
 
-    <!-- Tab Layout with Kafka's colors -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/kafka_wine"
-        android:elevation="4dp"
-        app:tabTextColor="@color/kafka_text_tertiary"
-        app:tabSelectedTextColor="@color/kafka_thread_light"
-        app:tabIndicatorColor="@color/kafka_thread_bright"
-        app:tabIndicatorHeight="3dp"
-        app:tabRippleColor="@color/kafka_thread_glow"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout">
-        
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="All Songs"/>
-        
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Playlists"/>
-        
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Folders"/>
-    </com.google.android.material.tabs.TabLayout>
+        <!-- 🕸️ KAFKA THREADS BACKGROUND - Glows with beat -->
+        <ImageView
+            android:id="@+id/spiderWebBg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/kafka_threads"
+            android:scaleType="centerCrop"
+            android:alpha="0.3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- ViewPager for content -->
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout"
-        app:layout_constraintBottom_toTopOf="@id/playerControlCard"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <!-- 🎵 CENTER LOGO - Static, centered -->
+        <ImageView
+            android:id="@+id/centerLogo"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/kafka_logo_2"
+            android:alpha="0.25"
+            android:scaleType="fitCenter"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Elegant Player Control Card -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/playerControlCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="12dp"
-        app:cardBackgroundColor="@color/kafka_card_elevated"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
+        <!-- Elegant Header -->
         <LinearLayout
+            android:id="@+id/headerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:background="@drawable/kafka_card_bg">
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintTop_toTopOf="parent">
+            
+            <TextView
+                android:id="@+id/appTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="KAFKA'S Music Player"
+                android:textColor="@color/kafka_pale_pink"
+                android:textSize="16sp"
+                android:fontFamily="serif"
+                android:textStyle="bold"
+                android:letterSpacing="0.15"
+                android:shadowColor="@color/kafka_thread_bright"
+                android:shadowRadius="8"
+                android:shadowDx="0"
+                android:shadowDy="0"/>
+            
+            <View
+                android:layout_width="120dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/kafka_divider_gradient"/>
+        </LinearLayout>
 
-            <!-- Song Info Section with Kafka chibi -->
+        <!-- Tab Layout -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/kafka_wine"
+            android:elevation="4dp"
+            app:tabTextColor="@color/kafka_text_tertiary"
+            app:tabSelectedTextColor="@color/kafka_thread_light"
+            app:tabIndicatorColor="@color/kafka_thread_bright"
+            app:tabIndicatorHeight="3dp"
+            app:tabRippleColor="@color/kafka_thread_glow"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/headerLayout"/>
+
+        <!-- ViewPager -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            app:layout_constraintBottom_toTopOf="@id/playerControlCard"/>
+
+        <!-- Player Control Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/playerControlCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            app:cardBackgroundColor="@color/kafka_card_elevated"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="12dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingBottom="12dp">
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:background="@drawable/kafka_card_bg">
 
-                <!-- Animated Kafka Chibi - changes based on playing state -->
-                <FrameLayout
-                    android:layout_width="64dp"
-                    android:layout_height="64dp">
-                    
-                    <!-- Image when NOT playing (kafka_2.png) -->
-                    <ImageView
-                        android:id="@+id/kafkaIdle"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/kafka_idle"
-                        android:scaleType="fitCenter"
-                        android:visibility="visible"/>
-                    
-                    <!-- Image when playing (kafka_3.png) -->
-                    <ImageView
-                        android:id="@+id/kafkaPlaying"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/kafka_playing"
-                        android:scaleType="fitCenter"
-                        android:visibility="gone"
-                        android:alpha="0"/>
-                </FrameLayout>
-
-                <!-- Song Info Text -->
+                <!-- Song Info with Kafka -->
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="8dp">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="12dp">
 
-                    <TextView
-                        android:id="@+id/nowPlaying"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Select a song..."
-                        android:textColor="@color/kafka_text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:maxLines="1"
-                        android:ellipsize="marquee"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"
-                        android:fontFamily="sans-serif-medium"/>
+                    <!-- Kafka with spider web background -->
+                    <FrameLayout
+                        android:layout_width="64dp"
+                        android:layout_height="64dp">
+                        
+                        <!-- Spider web behind Kafka (pulsates) -->
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/kafka_spider_web"
+                            android:alpha="0.3"
+                            android:scaleType="fitCenter"/>
+                        
+                        <!-- Idle Kafka -->
+                        <ImageView
+                            android:id="@+id/kafkaIdle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/kafka_idle"
+                            android:scaleType="fitCenter"
+                            android:visibility="visible"/>
+                        
+                        <!-- Playing Kafka -->
+                        <ImageView
+                            android:id="@+id/kafkaPlaying"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/kafka_playing"
+                            android:scaleType="fitCenter"
+                            android:visibility="gone"
+                            android:alpha="0"/>
+                    </FrameLayout>
 
-                    <TextView
-                        android:id="@+id/nowPlayingArtist"
-                        android:layout_width="wrap_content"
+                    <!-- Song Info -->
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Unknown Artist"
-                        android:textColor="@color/kafka_text_secondary"
-                        android:textSize="14sp"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:layout_marginTop="2dp"/>
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:id="@+id/nowPlaying"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Select a song..."
+                            android:textColor="@color/kafka_text_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:maxLines="1"
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:scrollHorizontally="true"
+                            android:fontFamily="sans-serif-medium"/>
+
+                        <TextView
+                            android:id="@+id/nowPlayingArtist"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Unknown Artist"
+                            android:textColor="@color/kafka_text_secondary"
+                            android:textSize="14sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="sans-serif-light"/>
+                    </LinearLayout>
+
+                    <!-- Shuffle Button -->
+                    <ImageButton
+                        android:id="@+id/shuffleBtn"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:src="@drawable/ic_shuffle"
+                        android:background="@drawable/kafka_icon_bg"
+                        app:tint="@color/kafka_thread_light"
+                        android:contentDescription="Shuffle"
+                        android:scaleType="centerInside"
+                        android:padding="8dp"/>
                 </LinearLayout>
 
-                <!-- Shuffle Button with glow -->
-                <ImageButton
-                    android:id="@+id/shuffleBtn"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:src="@drawable/ic_shuffle"
-                    android:background="@drawable/kafka_icon_bg"
-                    app:tint="@color/kafka_thread_light"
-                    android:contentDescription="Shuffle"
-                    android:scaleType="centerInside"
-                    android:padding="8dp"/>
-            </LinearLayout>
+                <!-- Progress Bar -->
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="12dp"
+                    android:progressTint="@color/kafka_thread_bright"
+                    android:thumbTint="@color/kafka_thread_light"
+                    android:progressBackgroundTint="@color/kafka_divider"
+                    android:minHeight="4dp"
+                    android:maxHeight="4dp"/>
 
-            <!-- Progress Bar with Kafka colors -->
-            <SeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="12dp"
-                android:progressTint="@color/kafka_thread_bright"
-                android:thumbTint="@color/kafka_thread_light"
-                android:progressBackgroundTint="@color/kafka_divider"
-                android:minHeight="4dp"
-                android:maxHeight="4dp"/>
+                <!-- Playback Controls -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:paddingTop="4dp">
 
-            <!-- Playback Controls -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:paddingTop="4dp">
-
-                <!-- Previous Button -->
-                <ImageButton
-                    android:id="@+id/prevBtn"
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
-                    android:src="@drawable/ic_previous"
-                    android:background="@drawable/kafka_control_bg"
-                    app:tint="@color/kafka_rose"
-                    android:contentDescription="Previous"
-                    android:scaleType="centerInside"
-                    android:padding="12dp"/>
-
-                <!-- Play/Pause Button - Large and prominent -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="68dp"
-                    android:layout_height="68dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    app:cardCornerRadius="34dp"
-                    app:cardElevation="8dp"
-                    app:cardBackgroundColor="@color/kafka_thread_bright">
-                    
                     <ImageButton
-                        android:id="@+id/playPauseBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_play"
-                        android:background="@drawable/kafka_play_button_bg"
-                        app:tint="@android:color/white"
-                        android:contentDescription="Play/Pause"
+                        android:id="@+id/prevBtn"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:src="@drawable/ic_previous"
+                        android:background="@drawable/kafka_control_bg"
+                        app:tint="@color/kafka_rose"
+                        android:contentDescription="Previous"
                         android:scaleType="centerInside"
-                        android:padding="16dp"/>
-                </androidx.cardview.widget.CardView>
+                        android:padding="12dp"/>
 
-                <!-- Next Button -->
-                <ImageButton
-                    android:id="@+id/nextBtn"
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
-                    android:src="@drawable/ic_next"
-                    android:background="@drawable/kafka_control_bg"
-                    app:tint="@color/kafka_rose"
-                    android:contentDescription="Next"
-                    android:scaleType="centerInside"
-                    android:padding="12dp"/>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="68dp"
+                        android:layout_height="68dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardCornerRadius="34dp"
+                        app:cardElevation="8dp"
+                        app:cardBackgroundColor="@color/kafka_thread_bright">
+                        
+                        <ImageButton
+                            android:id="@+id/playPauseBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_play"
+                            android:background="@drawable/kafka_play_button_bg"
+                            app:tint="@android:color/white"
+                            android:contentDescription="Play/Pause"
+                            android:scaleType="centerInside"
+                            android:padding="16dp"/>
+                    </androidx.cardview.widget.CardView>
 
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
+                    <ImageButton
+                        android:id="@+id/nextBtn"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:src="@drawable/ic_next"
+                        android:background="@drawable/kafka_control_bg"
+                        app:tint="@color/kafka_rose"
+                        android:contentDescription="Next"
+                        android:scaleType="centerInside"
+                        android:padding="12dp"/>
 
-                <!-- Playlist Button -->
-                <ImageButton
-                    android:id="@+id/playlistBtn"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:src="@drawable/ic_playlist"
-                    android:background="@drawable/kafka_icon_bg"
-                    app:tint="@color/kafka_text_secondary"
-                    android:contentDescription="View Playlist"
-                    android:scaleType="centerInside"
-                    android:padding="8dp"/>
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"/>
+
+                    <ImageButton
+                        android:id="@+id/playlistBtn"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:src="@drawable/ic_playlist"
+                        android:background="@drawable/kafka_icon_bg"
+                        app:tint="@color/kafka_text_secondary"
+                        android:contentDescription="View Playlist"
+                        android:scaleType="centerInside"
+                        android:padding="8dp"/>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-    <!-- Elegant FAB with Kafka's thread color -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddPlaylist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="@color/kafka_thread_bright"
-        app:tint="@android:color/white"
-        app:borderWidth="0dp"
-        app:elevation="8dp"
-        app:rippleColor="@color/kafka_thread_glow"
-        android:layout_margin="20dp"
-        app:layout_constraintBottom_toTopOf="@id/playerControlCard"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="Create Playlist"/>
+        <!-- FAB -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddPlaylist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="@color/kafka_thread_bright"
+            app:tint="@android:color/white"
+            app:borderWidth="0dp"
+            app:elevation="8dp"
+            app:rippleColor="@color/kafka_thread_glow"
+            android:layout_margin="20dp"
+            app:layout_constraintBottom_toTopOf="@id/playerControlCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="Create Playlist"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    
+</FrameLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="800dp"
+    android:viewportWidth="400"
+    android:viewportHeight="400">
+
+    <group android:name="web_group">
+        <path android:strokeWidth="1.8" android:strokeColor="#FD79A8" android:pathData="M-50,-50 L160,160" />
+        <path android:strokeWidth="1.2" android:strokeColor="#D84A8F" android:pathData="M200,-80 L200,140" />
+        <path android:strokeWidth="1.5" android:strokeColor="#FD79A8" android:pathData="M450,-50 L240,160" />
+        
+        <path android:strokeWidth="1.8" android:strokeColor="#FD79A8" android:pathData="M-50,450 L160,240" />
+        <path android:strokeWidth="1.2" android:strokeColor="#D84A8F" android:pathData="M200,480 L200,260" />
+        <path android:strokeWidth="1.5" android:strokeColor="#FD79A8" android:pathData="M450,450 L240,240" />
+        
+        <path android:strokeWidth="1.3" android:strokeColor="#FD79A8" android:pathData="M-80,200 L140,200" />
+        <path android:strokeWidth="1.3" android:strokeColor="#D84A8F" android:pathData="M480,200 L260,200" />
+        
+        <path android:strokeWidth="1" android:strokeColor="#D84A8F" android:pathData="M0,100 L150,180" />
+        <path android:strokeWidth="1" android:strokeColor="#FD79A8" android:pathData="M400,100 L250,180" />
+        <path android:strokeWidth="1" android:strokeColor="#D84A8F" android:pathData="M0,300 L150,220" />
+        <path android:strokeWidth="1" android:strokeColor="#FD79A8" android:pathData="M400,300 L250,220" />
+        <path android:strokeWidth="1.4" android:strokeColor="#FD79A8" android:pathData="M100,420 L180,250" />
+        <path android:strokeWidth="1.4" android:strokeColor="#D84A8F" android:pathData="M300,-20 L220,150" />
+    </group>
+</vector>

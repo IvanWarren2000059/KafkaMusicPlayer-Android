@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="56dp"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp"
+    android:gravity="center_vertical"
+    android:textColor="@color/kafka_text_primary"
+    android:textSize="16sp"
+    android:fontFamily="sans-serif-light"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"/>

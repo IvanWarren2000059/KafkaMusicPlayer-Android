@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Outer glow layer (vibrant purple) -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#668B6EC7"/>
+            <size android:width="90dp" android:height="90dp"/>
+        </shape>
+    </item>
+    
+    <!-- Middle glow layer (bright purple) -->
+    <item android:left="6dp" android:top="6dp" android:right="6dp" android:bottom="6dp">
+        <shape android:shape="oval">
+            <solid android:color="#99A186D8"/>
+            <size android:width="78dp" android:height="78dp"/>
+        </shape>
+    </item>
+    
+    <!-- Inner glow layer (light purple) -->
+    <item android:left="10dp" android:top="10dp" android:right="10dp" android:bottom="10dp">
+        <shape android:shape="oval">
+            <solid android:color="#CCBAA3E8"/>
+            <size android:width="70dp" android:height="70dp"/>
+        </shape>
+    </item>
+    
+    <!-- Logo -->
+    <item android:left="15dp" android:top="15dp" android:right="15dp" android:bottom="15dp">
+        <bitmap android:src="@drawable/kafka_logo_1" android:gravity="center"/>
+    </item>
+    
+</layer-list>

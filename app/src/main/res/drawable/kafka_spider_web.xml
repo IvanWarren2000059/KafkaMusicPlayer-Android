@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="400dp"
+            android:height="400dp"
+            android:viewportWidth="400"
+            android:viewportHeight="400">
+            
+            <!-- Center diamond/geometric core -->
+            <path
+                android:name="centerCore"
+                android:pathData="M200,170 L230,200 L200,230 L170,200 Z"
+                android:fillColor="#B388FF"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="2.5"
+                android:fillAlpha="0.9"
+                android:strokeAlpha="1.0"/>
+            
+            <!-- Inner geometric diamond layer -->
+            <path
+                android:name="innerDiamond"
+                android:pathData="M200,140 L250,200 L200,260 L150,200 Z"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="2"
+                android:fillColor="#00000000"
+                android:strokeAlpha="0.85"/>
+            
+            <!-- Middle geometric layer with connecting lines -->
+            <path
+                android:name="middleGeometry"
+                android:pathData="M200,110 L270,200 L200,290 L130,200 Z"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="2"
+                android:fillColor="#00000000"
+                android:strokeAlpha="0.75"/>
+            
+            <!-- Outer geometric boundary -->
+            <path
+                android:name="outerBoundary"
+                android:pathData="M200,80 L290,200 L200,320 L110,200 Z"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="2"
+                android:fillColor="#00000000"
+                android:strokeAlpha="0.65"/>
+            
+            <!-- Additional decorative lines forming web pattern -->
+            <!-- Horizontal connecting lines -->
+            <path
+                android:name="horizontalWeb1"
+                android:pathData="M150,200 L250,200"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="1.5"
+                android:strokeAlpha="0.8"/>
+            
+            <path
+                android:name="horizontalWeb2"
+                android:pathData="M165,175 L235,175"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.2"
+                android:strokeAlpha="0.7"/>
+            
+            <path
+                android:name="horizontalWeb3"
+                android:pathData="M165,225 L235,225"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.2"
+                android:strokeAlpha="0.7"/>
+            
+            <!-- Vertical connecting lines -->
+            <path
+                android:name="verticalWeb1"
+                android:pathData="M200,140 L200,260"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="1.5"
+                android:strokeAlpha="0.8"/>
+            
+            <!-- Diagonal cross patterns -->
+            <path
+                android:name="diagonalCross1"
+                android:pathData="M175,175 L225,225"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.2"
+                android:strokeAlpha="0.75"/>
+            
+            <path
+                android:name="diagonalCross2"
+                android:pathData="M225,175 L175,225"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.2"
+                android:strokeAlpha="0.75"/>
+            
+            <!-- Radial threads extending outward (8 directions) -->
+            <!-- North -->
+            <path
+                android:name="thread_n"
+                android:pathData="M200,170 L200,60"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="1.8"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- Northeast -->
+            <path
+                android:name="thread_ne"
+                android:pathData="M215,185 L310,90"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.8"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- East -->
+            <path
+                android:name="thread_e"
+                android:pathData="M230,200 L340,200"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="1.8"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- Southeast -->
+            <path
+                android:name="thread_se"
+                android:pathData="M215,215 L310,310"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.8"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- South -->
+            <path
+                android:name="thread_s"
+                android:pathData="M200,230 L200,340"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="1.8"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- Southwest -->
+            <path
+                android:name="thread_sw"
+                android:pathData="M185,215 L90,310"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.8"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- West -->
+            <path
+                android:name="thread_w"
+                android:pathData="M170,200 L60,200"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="1.8"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- Northwest -->
+            <path
+                android:name="thread_nw"
+                android:pathData="M185,185 L90,90"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.8"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- Accent nodes at thread endpoints -->
+            <path
+                android:name="node_n"
+                android:pathData="M200,60 m-4,0 a4,4 0,1,1 8,0 a4,4 0,1,1 -8,0"
+                android:fillColor="#B388FF"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="node_ne"
+                android:pathData="M310,90 m-4,0 a4,4 0,1,1 8,0 a4,4 0,1,1 -8,0"
+                android:fillColor="#FF6B9D"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="node_e"
+                android:pathData="M340,200 m-4,0 a4,4 0,1,1 8,0 a4,4 0,1,1 -8,0"
+                android:fillColor="#B388FF"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="node_se"
+                android:pathData="M310,310 m-4,0 a4,4 0,1,1 8,0 a4,4 0,1,1 -8,0"
+                android:fillColor="#FF6B9D"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="node_s"
+                android:pathData="M200,340 m-4,0 a4,4 0,1,1 8,0 a4,4 0,1,1 -8,0"
+                android:fillColor="#B388FF"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="node_sw"
+                android:pathData="M90,310 m-4,0 a4,4 0,1,1 8,0 a4,4 0,1,1 -8,0"
+                android:fillColor="#FF6B9D"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="node_w"
+                android:pathData="M60,200 m-4,0 a4,4 0,1,1 8,0 a4,4 0,1,1 -8,0"
+                android:fillColor="#B388FF"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="node_nw"
+                android:pathData="M90,90 m-4,0 a4,4 0,1,1 8,0 a4,4 0,1,1 -8,0"
+                android:fillColor="#FF6B9D"
+                android:fillAlpha="1.0"/>
+            
+            <!-- Inner layer accent nodes -->
+            <path
+                android:name="innerNode1"
+                android:pathData="M200,140 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"
+                android:fillColor="#FF6B9D"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="innerNode2"
+                android:pathData="M250,200 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"
+                android:fillColor="#B388FF"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="innerNode3"
+                android:pathData="M200,260 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"
+                android:fillColor="#FF6B9D"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="innerNode4"
+                android:pathData="M150,200 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"
+                android:fillColor="#B388FF"
+                android:fillAlpha="1.0"/>
+            
+        </vector>
+    </aapt:attr>
+    
+    <!-- ANIMATIONS -->
+    
+    <!-- Center core pulsating with glow effect -->
+    <target android:name="centerCore">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="fillAlpha"
+                    android:duration="2000"
+                    android:valueFrom="0.9"
+                    android:valueTo="0.3"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+                <objectAnimator
+                    android:propertyName="strokeAlpha"
+                    android:duration="2000"
+                    android:valueFrom="1.0"
+                    android:valueTo="0.5"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+    
+    <!-- Inner diamond pulsating -->
+    <target android:name="innerDiamond">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="2500"
+                android:valueFrom="0.85"
+                android:valueTo="0.25"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="150"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- Middle geometry pulsating -->
+    <target android:name="middleGeometry">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="2500"
+                android:valueFrom="0.75"
+                android:valueTo="0.2"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="300"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- Outer boundary pulsating -->
+    <target android:name="outerBoundary">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="2500"
+                android:valueFrom="0.65"
+                android:valueTo="0.15"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="450"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- Web pattern animations -->
+    <target android:name="horizontalWeb1">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="1800"
+                android:valueFrom="0.8"
+                android:valueTo="0.2"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="100"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="verticalWeb1">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="1800"
+                android:valueFrom="0.8"
+                android:valueTo="0.2"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="200"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- Thread animations with sequential timing -->
+    <target android:name="thread_n">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="2200"
+                android:valueFrom="0.9"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="0"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="thread_ne">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="2200"
+                android:valueFrom="0.9"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="275"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="thread_e">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="2200"
+                android:valueFrom="0.9"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="550"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="thread_se">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="2200"
+                android:valueFrom="0.9"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="825"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="thread_s">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="2200"
+                android:valueFrom="0.9"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="1100"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="thread_sw">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="2200"
+                android:valueFrom="0.9"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="1375"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="thread_w">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="2200"
+                android:valueFrom="0.9"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="1650"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="thread_nw">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="2200"
+                android:valueFrom="0.9"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="1925"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- Node pulsating animations -->
+    <target android:name="node_n">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.2"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="0"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="node_ne">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.2"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="180"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="node_e">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.2"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="360"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="node_se">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.2"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="540"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="node_s">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.2"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="720"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="node_sw">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.2"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="900"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="node_w">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.2"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="1080"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="node_nw">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.2"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="1260"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- Inner node animations -->
+    <target android:name="innerNode1">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1300"
+                android:valueFrom="1.0"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="200"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="innerNode2">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1300"
+                android:valueFrom="1.0"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="400"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="innerNode3">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1300"
+                android:valueFrom="1.0"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="600"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="innerNode4">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1300"
+                android:valueFrom="1.0"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="800"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+</animated-vector>

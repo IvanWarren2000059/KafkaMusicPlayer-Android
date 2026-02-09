@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="400dp"
+            android:height="400dp"
+            android:viewportWidth="400"
+            android:viewportHeight="400">
+            
+            <!-- Center circle -->
+            <path
+                android:name="centerCircle"
+                android:pathData="M200,200 m-20,0 a20,20 0,1,1 40,0 a20,20 0,1,1 -40,0"
+                android:fillColor="#FF6B9D"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="2"
+                android:fillAlpha="1.0"
+                android:strokeAlpha="1.0"/>
+            
+            <!-- Inner web ring -->
+            <path
+                android:name="innerRing"
+                android:pathData="M200,200 m-60,0 a60,60 0,1,1 120,0 a60,60 0,1,1 -120,0"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="1.5"
+                android:fillColor="#00000000"
+                android:strokeAlpha="0.8"/>
+            
+            <!-- Middle web ring -->
+            <path
+                android:name="middleRing"
+                android:pathData="M200,200 m-100,0 a100,100 0,1,1 200,0 a100,100 0,1,1 -200,0"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.5"
+                android:fillColor="#00000000"
+                android:strokeAlpha="0.7"/>
+            
+            <!-- Outer web ring -->
+            <path
+                android:name="outerRing"
+                android:pathData="M200,200 m-140,0 a140,140 0,1,1 280,0 a140,140 0,1,1 -280,0"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="1.5"
+                android:fillColor="#00000000"
+                android:strokeAlpha="0.6"/>
+            
+            <!-- Radial threads (8 directions) -->
+            <!-- North -->
+            <path
+                android:name="thread_n"
+                android:pathData="M200,200 L200,60"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.5"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- Northeast -->
+            <path
+                android:name="thread_ne"
+                android:pathData="M200,200 L299,101"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="1.5"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- East -->
+            <path
+                android:name="thread_e"
+                android:pathData="M200,200 L340,200"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.5"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- Southeast -->
+            <path
+                android:name="thread_se"
+                android:pathData="M200,200 L299,299"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="1.5"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- South -->
+            <path
+                android:name="thread_s"
+                android:pathData="M200,200 L200,340"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.5"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- Southwest -->
+            <path
+                android:name="thread_sw"
+                android:pathData="M200,200 L101,299"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="1.5"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- West -->
+            <path
+                android:name="thread_w"
+                android:pathData="M200,200 L60,200"
+                android:strokeColor="#FF6B9D"
+                android:strokeWidth="1.5"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- Northwest -->
+            <path
+                android:name="thread_nw"
+                android:pathData="M200,200 L101,101"
+                android:strokeColor="#B388FF"
+                android:strokeWidth="1.5"
+                android:strokeAlpha="0.9"/>
+            
+            <!-- Accent dots at intersection points -->
+            <path
+                android:name="dot_n"
+                android:pathData="M200,60 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"
+                android:fillColor="#FF6B9D"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="dot_ne"
+                android:pathData="M299,101 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"
+                android:fillColor="#B388FF"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="dot_e"
+                android:pathData="M340,200 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"
+                android:fillColor="#FF6B9D"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="dot_se"
+                android:pathData="M299,299 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"
+                android:fillColor="#B388FF"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="dot_s"
+                android:pathData="M200,340 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"
+                android:fillColor="#FF6B9D"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="dot_sw"
+                android:pathData="M101,299 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"
+                android:fillColor="#B388FF"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="dot_w"
+                android:pathData="M60,200 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"
+                android:fillColor="#FF6B9D"
+                android:fillAlpha="1.0"/>
+            
+            <path
+                android:name="dot_nw"
+                android:pathData="M101,101 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0"
+                android:fillColor="#B388FF"
+                android:fillAlpha="1.0"/>
+            
+        </vector>
+    </aapt:attr>
+    
+    <!-- Center circle pulsating -->
+    <target android:name="centerCircle">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="fillAlpha"
+                    android:duration="2500"
+                    android:valueFrom="1.0"
+                    android:valueTo="0.4"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+                <objectAnimator
+                    android:propertyName="strokeAlpha"
+                    android:duration="2500"
+                    android:valueFrom="1.0"
+                    android:valueTo="0.5"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+    
+    <!-- Inner ring pulsating -->
+    <target android:name="innerRing">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="3000"
+                android:valueFrom="0.8"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="200"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- Middle ring pulsating -->
+    <target android:name="middleRing">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="3000"
+                android:valueFrom="0.7"
+                android:valueTo="0.2"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="400"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- Outer ring pulsating -->
+    <target android:name="outerRing">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="strokeAlpha"
+                android:duration="3000"
+                android:valueFrom="0.6"
+                android:valueTo="0.1"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="600"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- Pulsating dots -->
+    <target android:name="dot_n">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="0"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="dot_ne">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="180"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="dot_e">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="360"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="dot_se">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="540"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="dot_s">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="720"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="dot_sw">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="900"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="dot_w">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="1080"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="dot_nw">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="fillAlpha"
+                android:duration="1500"
+                android:valueFrom="1.0"
+                android:valueTo="0.3"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="1260"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+</animated-vector>

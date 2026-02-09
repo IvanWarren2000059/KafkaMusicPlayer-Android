@@ -66,6 +66,19 @@
                 android:layout_marginTop="3dp"/>
         </LinearLayout>
 
+        <!-- ✅ NEW: Delete button with Kafka styling -->
+        <ImageButton
+            android:id="@+id/deletePlaylistBtn"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_delete"
+            android:background="@drawable/kafka_icon_bg"
+            android:tint="@color/kafka_rose"
+            android:contentDescription="Delete playlist"
+            android:scaleType="centerInside"
+            android:padding="10dp"
+            android:layout_marginEnd="8dp"/>
+
         <!-- Arrow with thread color -->
         <ImageView
             android:layout_width="28dp"

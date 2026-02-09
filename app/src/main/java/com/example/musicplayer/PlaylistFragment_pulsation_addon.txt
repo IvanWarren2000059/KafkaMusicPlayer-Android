@@ -1,0 +1,17 @@
+// ADD THESE IMPORTS AT THE TOP:
+import android.widget.ImageView
+
+// ADD THESE FIELDS IN THE CLASS:
+private var logoPulsator: LogoPulsator? = null
+
+// ADD THIS IN onCreateView AFTER findViewById(R.id.emptyText):
+// Initialize logo pulsator
+val logoView = view.findViewById<ImageView>(R.id.logoPulsating)
+val glowView = view.findViewById<ImageView>(R.id.logoPulsatingGlow)
+logoPulsator = LogoPulsator(logoView, glowView)
+
+// ADD THIS IN onResume:
+logoPulsator?.start(120f)
+
+// ADD THIS IN onPause:
+logoPulsator?.stop()

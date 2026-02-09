@@ -6,19 +6,21 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
-    app:cardBackgroundColor="@color/kafka_card_bg"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="3dp">
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardBackgroundColor="@color/kafka_card_elevated"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="14dp"
+        android:padding="16dp"
         android:gravity="center_vertical"
-        android:background="@drawable/kafka_song_item_bg">
+        android:background="@drawable/kafka_playlist_item_bg">
 
         <!-- Playing Indicator - Kafka's thread color -->
         <View
@@ -69,6 +71,7 @@
             android:tint="@color/kafka_text_secondary"
             android:contentDescription="More Options"
             android:scaleType="centerInside"
-            android:padding="8dp"/>
+            android:padding="8dp"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

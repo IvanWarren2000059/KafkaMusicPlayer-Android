@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer glow layer 1 (Pink) -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#33E84393"/>
+            <size android:width="250dp" android:height="250dp"/>
+        </shape>
+    </item>
+    
+    <!-- Outer glow layer 2 (Purple) -->
+    <item android:top="20dp" android:bottom="20dp" android:left="20dp" android:right="20dp">
+        <shape android:shape="oval">
+            <solid android:color="#449370DB"/>
+            <size android:width="210dp" android:height="210dp"/>
+        </shape>
+    </item>
+    
+    <!-- Outer glow layer 3 (Blue) -->
+    <item android:top="40dp" android:bottom="40dp" android:left="40dp" android:right="40dp">
+        <shape android:shape="oval">
+            <solid android:color="#554169E1"/>
+            <size android:width="170dp" android:height="170dp"/>
+        </shape>
+    </item>
+    
+    <!-- Actual logo (centered, smaller) -->
+    <item android:top="60dp" android:bottom="60dp" android:left="60dp" android:right="60dp">
+        <bitmap 
+            android:src="@drawable/kafka_logo_1"
+            android:gravity="center"/>
+    </item>
+</layer-list>

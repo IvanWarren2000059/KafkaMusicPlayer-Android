@@ -1,135 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- SIMPLIFIED VERSION FOR TESTING - Replace your current kafka_widget.xml with this -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#992D1028"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <!-- Header -->
-    <TextView
-        android:id="@+id/widgetTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="KAFKA'S PLAYER"
-        android:textColor="#FD79A8"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:paddingBottom="8dp"/>
+    <!-- SIMPLE Background logo - just kafka_logo_2 PNG, more visible -->
+    <ImageView
+        android:id="@+id/widgetPulsatingLogoBg"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_gravity="center"
+        android:src="@drawable/kafka_logo_2"
+        android:alpha="0.40"
+        android:scaleType="fitCenter"/>
 
-    <!-- Kafka and Song Info -->
+    <!-- Main Content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#CC2D1028"
+        android:padding="16dp">
 
-        <!-- Animated Kafka chibi -->
-        <FrameLayout
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginEnd="12dp">
-            
-            <ImageView
-                android:id="@+id/widgetKafkaIdle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/kafka_idle"
-                android:scaleType="fitCenter"
-                android:visibility="visible"/>
-            
-            <ImageView
-                android:id="@+id/widgetKafkaPlaying"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/kafka_playing"
-                android:scaleType="fitCenter"
-                android:visibility="gone"/>
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
+        <!-- Header -->
+        <TextView
+            android:id="@+id/widgetTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:text="KAFKA'S PLAYER"
+            android:textColor="#FD79A8"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.1"
+            android:gravity="center"
+            android:paddingBottom="8dp"/>
 
-            <TextView
-                android:id="@+id/widgetSongTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Select a song..."
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:maxLines="1"
-                android:ellipsize="end"/>
+        <!-- Kafka and Song Info -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/widgetArtist"
-                android:layout_width="match_parent"
+            <!-- Kafka Chibi - WITH PROPER VISIBILITY HANDLING -->
+            <FrameLayout
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginEnd="12dp">
+                
+                <!-- Spider web background (always visible, pulsates) -->
+                <ImageView
+                    android:id="@+id/widgetKafkaWeb"
+                    android:layout_width="76dp"
+                    android:layout_height="76dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/kafka_spider_web"
+                    android:alpha="0.3"
+                    android:scaleType="fitCenter"/>
+                
+                <!-- Idle Kafka (visible when NOT playing) -->
+                <ImageView
+                    android:id="@+id/widgetKafkaIdle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/kafka_idle"
+                    android:scaleType="fitCenter"
+                    android:visibility="visible"/>
+                
+                <!-- Playing Kafka (visible when playing) -->
+                <ImageView
+                    android:id="@+id/widgetKafkaPlaying"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/kafka_playing"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone"/>
+            </FrameLayout>
+
+            <!-- Song Info -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Unknown Artist"
-                android:textColor="#B0A8C8"
-                android:textSize="13sp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_marginTop="2dp"/>
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/widgetSongTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select a song..."
+                    android:textColor="#F5E8F0"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+
+                <TextView
+                    android:id="@+id/widgetArtist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Unknown Artist"
+                    android:textColor="#C897B8"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-light"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginTop="2dp"/>
+            </LinearLayout>
         </LinearLayout>
+
+        <!-- Playback Controls -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="12dp">
+
+            <ImageButton
+                android:id="@+id/widgetShuffleBtn"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:src="@drawable/ic_shuffle"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Shuffle"
+                android:scaleType="fitCenter"
+                android:tint="#FD79A8"
+                android:padding="8dp"/>
+
+            <ImageButton
+                android:id="@+id/widgetPrevBtn"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_previous"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Previous"
+                android:scaleType="fitCenter"
+                android:tint="#D84A8F"
+                android:padding="10dp"/>
+
+            <ImageButton
+                android:id="@+id/widgetPlayPauseBtn"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_play"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Play/Pause"
+                android:scaleType="fitCenter"
+                android:tint="#E84393"
+                android:padding="12dp"/>
+
+            <ImageButton
+                android:id="@+id/widgetNextBtn"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_next"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Next"
+                android:scaleType="fitCenter"
+                android:tint="#D84A8F"
+                android:padding="10dp"/>
+        </LinearLayout>
+
     </LinearLayout>
 
-    <!-- Playback Controls -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="12dp">
-
-        <ImageButton
-            android:id="@+id/widgetShuffleBtn"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:src="@drawable/ic_shuffle"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Shuffle"
-            android:scaleType="fitCenter"
-            android:padding="8dp"/>
-
-        <ImageButton
-            android:id="@+id/widgetPrevBtn"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/ic_previous"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Previous"
-            android:scaleType="fitCenter"
-            android:padding="10dp"/>
-
-        <ImageButton
-            android:id="@+id/widgetPlayPauseBtn"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:src="@drawable/ic_play"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Play/Pause"
-            android:scaleType="fitCenter"
-            android:padding="12dp"/>
-
-        <ImageButton
-            android:id="@+id/widgetNextBtn"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_next"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Next"
-            android:scaleType="fitCenter"
-            android:padding="10dp"/>
-    </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

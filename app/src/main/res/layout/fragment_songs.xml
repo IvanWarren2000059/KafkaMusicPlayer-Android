@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- RecyclerView - clean, no background decorations -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/songRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:background="@android:color/transparent"/>
 
 </FrameLayout>

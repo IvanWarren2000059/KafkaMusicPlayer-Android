@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="400dp"
+            android:height="400dp"
+            android:viewportWidth="400"
+            android:viewportHeight="400">
+            
+            <!-- Outer rings only - NO CENTER -->
+            
+            <!-- Inner web ring -->
+            <group android:name="innerGroup">
+                <path
+                    android:name="innerRing"
+                    android:pathData="M200,200 m-60,0 a60,60 0,1,1 120,0 a60,60 0,1,1 -120,0"
+                    android:strokeColor="#B388FF"
+                    android:strokeWidth="1.5"
+                    android:fillColor="#00000000"
+                    android:strokeAlpha="0.6"/>
+            </group>
+            
+            <!-- Middle web ring -->
+            <group android:name="middleGroup">
+                <path
+                    android:name="middleRing"
+                    android:pathData="M200,200 m-100,0 a100,100 0,1,1 200,0 a100,100 0,1,1 -200,0"
+                    android:strokeColor="#FF6B9D"
+                    android:strokeWidth="1.5"
+                    android:fillColor="#00000000"
+                    android:strokeAlpha="0.5"/>
+            </group>
+            
+            <!-- Outer web ring -->
+            <group android:name="outerGroup">
+                <path
+                    android:name="outerRing"
+                    android:pathData="M200,200 m-140,0 a140,140 0,1,1 280,0 a140,140 0,1,1 -280,0"
+                    android:strokeColor="#B388FF"
+                    android:strokeWidth="1.5"
+                    android:fillColor="#00000000"
+                    android:strokeAlpha="0.4"/>
+            </group>
+            
+            <!-- WILDLY CHAOTIC THREADS - Going everywhere EXCEPT center -->
+            <group android:name="threadsGroup"
+                android:pivotX="200"
+                android:pivotY="200">
+                
+                <!-- Top edge wildly curving to right edge, avoiding center -->
+                <path android:pathData="M200,40 Q280,60 320,120 Q350,180 360,240" 
+                    android:strokeColor="#FF6B9D" 
+                    android:strokeWidth="1.8" 
+                    android:strokeAlpha="0.7"
+                    android:fillColor="#00000000"/>
+                
+                <!-- Right edge swooping down and left, avoiding center -->
+                <path android:pathData="M360,200 Q340,260 280,320 Q220,350 160,360" 
+                    android:strokeColor="#B388FF" 
+                    android:strokeWidth="1.8" 
+                    android:strokeAlpha="0.7"
+                    android:fillColor="#00000000"/>
+                
+                <!-- Bottom edge wild curve to left edge -->
+                <path android:pathData="M200,360 Q120,340 60,280 Q35,220 40,160" 
+                    android:strokeColor="#FF6B9D" 
+                    android:strokeWidth="1.8" 
+                    android:strokeAlpha="0.7"
+                    android:fillColor="#00000000"/>
+                
+                <!-- Left edge swooping up and right -->
+                <path android:pathData="M40,200 Q60,140 120,80 Q180,50 240,40" 
+                    android:strokeColor="#B388FF" 
+                    android:strokeWidth="1.8" 
+                    android:strokeAlpha="0.7"
+                    android:fillColor="#00000000"/>
+                
+                <!-- Wild diagonal 1 - TopLeft area to BottomRight area, curving around center -->
+                <path android:pathData="M80,80 Q60,120 70,160 Q85,200 120,240 Q180,280 240,300 Q290,310 320,320" 
+                    android:strokeColor="#FF6B9D" 
+                    android:strokeWidth="1.5" 
+                    android:strokeAlpha="0.6"
+                    android:fillColor="#00000000"/>
+                
+                <!-- Wild diagonal 2 - TopRight area to BottomLeft area, swooping around -->
+                <path android:pathData="M320,80 Q340,120 330,160 Q315,200 280,240 Q220,280 160,300 Q110,310 80,320" 
+                    android:strokeColor="#B388FF" 
+                    android:strokeWidth="1.5" 
+                    android:strokeAlpha="0.6"
+                    android:fillColor="#00000000"/>
+                
+                <!-- Chaotic zigzag top-right quadrant -->
+                <path android:pathData="M280,60 Q300,90 280,120 Q310,150 290,180" 
+                    android:strokeColor="#FF6B9D" 
+                    android:strokeWidth="1.3" 
+                    android:strokeAlpha="0.5"
+                    android:fillColor="#00000000"/>
+                
+                <!-- Chaotic zigzag bottom-left quadrant -->
+                <path android:pathData="M120,340 Q100,310 120,280 Q90,250 110,220" 
+                    android:strokeColor="#B388FF" 
+                    android:strokeWidth="1.3" 
+                    android:strokeAlpha="0.5"
+                    android:fillColor="#00000000"/>
+                
+                <!-- Erratic thread top area, going left-right wildly -->
+                <path android:pathData="M150,50 Q170,70 190,60 Q210,50 230,70 Q250,90 270,80" 
+                    android:strokeColor="#FF6B9D" 
+                    android:strokeWidth="1.2" 
+                    android:strokeAlpha="0.4"
+                    android:fillColor="#00000000"/>
+                
+                <!-- Erratic thread bottom area -->
+                <path android:pathData="M130,350 Q150,330 170,340 Q190,350 210,330 Q230,310 250,320" 
+                    android:strokeColor="#B388FF" 
+                    android:strokeWidth="1.2" 
+                    android:strokeAlpha="0.4"
+                    android:fillColor="#00000000"/>
+                
+                <!-- Erratic thread left side -->
+                <path android:pathData="M50,150 Q70,170 60,190 Q50,210 70,230 Q90,250 80,270" 
+                    android:strokeColor="#FF6B9D" 
+                    android:strokeWidth="1.2" 
+                    android:strokeAlpha="0.4"
+                    android:fillColor="#00000000"/>
+                
+                <!-- Erratic thread right side -->
+                <path android:pathData="M350,130 Q330,150 340,170 Q350,190 330,210 Q310,230 320,250" 
+                    android:strokeColor="#B388FF" 
+                    android:strokeWidth="1.2" 
+                    android:strokeAlpha="0.4"
+                    android:fillColor="#00000000"/>
+            </group>
+            
+            <!-- Accent dots at outer edges only -->
+            <group android:name="dotsGroup">
+                <path android:pathData="M200,40 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0" android:fillColor="#FF6B9D"/>
+                <path android:pathData="M320,80 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0" android:fillColor="#B388FF"/>
+                <path android:pathData="M360,200 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0" android:fillColor="#FF6B9D"/>
+                <path android:pathData="M320,320 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0" android:fillColor="#B388FF"/>
+                <path android:pathData="M200,360 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0" android:fillColor="#FF6B9D"/>
+                <path android:pathData="M80,320 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0" android:fillColor="#B388FF"/>
+                <path android:pathData="M40,200 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0" android:fillColor="#FF6B9D"/>
+                <path android:pathData="M80,80 m-3,0 a3,3 0,1,1 6,0 a3,3 0,1,1 -6,0" android:fillColor="#B388FF"/>
+            </group>
+            
+        </vector>
+    </aapt:attr>
+    
+    <!-- Inner ring pulse -->
+    <target android:name="innerGroup">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="scaleX"
+                android:duration="3000"
+                android:valueFrom="1.0"
+                android:valueTo="1.2"
+                android:valueType="floatType"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="innerGroup">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="scaleY"
+                android:duration="3000"
+                android:valueFrom="1.0"
+                android:valueTo="1.2"
+                android:valueType="floatType"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- Middle ring pulse with delay -->
+    <target android:name="middleGroup">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="scaleX"
+                android:duration="3500"
+                android:valueFrom="1.0"
+                android:valueTo="1.15"
+                android:valueType="floatType"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="500"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="middleGroup">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="scaleY"
+                android:duration="3500"
+                android:valueFrom="1.0"
+                android:valueTo="1.15"
+                android:valueType="floatType"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="500"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- Outer ring subtle pulse -->
+    <target android:name="outerGroup">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="scaleX"
+                android:duration="4000"
+                android:valueFrom="1.0"
+                android:valueTo="1.1"
+                android:valueType="floatType"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="1000"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <target android:name="outerGroup">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="scaleY"
+                android:duration="4000"
+                android:valueFrom="1.0"
+                android:valueTo="1.1"
+                android:valueType="floatType"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:startOffset="1000"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- GLOW ANIMATION - Threads brightness pulsing constantly -->
+    <target android:name="threadsGroup">
+        <aapt:attr name="android:animation">
+            <set>
+                <!-- Glow/dim alpha animation -->
+                <objectAnimator
+                    android:propertyName="alpha"
+                    android:duration="2000"
+                    android:valueFrom="0.4"
+                    android:valueTo="0.9"
+                    android:valueType="floatType"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+                
+                <!-- Gentle rotation -->
+                <objectAnimator
+                    android:propertyName="rotation"
+                    android:duration="30000"
+                    android:valueFrom="0"
+                    android:valueTo="360"
+                    android:valueType="floatType"
+                    android:repeatCount="infinite"
+                    android:interpolator="@android:anim/linear_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+    
+    <!-- Dots glow animation -->
+    <target android:name="dotsGroup">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="alpha"
+                android:duration="1500"
+                android:valueFrom="0.5"
+                android:valueTo="1.0"
+                android:valueType="floatType"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+</animated-vector>

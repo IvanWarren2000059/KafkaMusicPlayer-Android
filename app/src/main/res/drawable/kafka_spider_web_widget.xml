@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="200dp"
+            android:height="200dp"
+            android:viewportWidth="200"
+            android:viewportHeight="200">
+            
+            <!-- Compact center -->
+            <group android:name="centerGroup"
+                android:pivotX="100"
+                android:pivotY="100">
+                <path
+                    android:pathData="M100,100 m-10,0 a10,10 0,1,1 20,0 a10,10 0,1,1 -20,0"
+                    android:fillColor="#FF6B9D"
+                    android:strokeColor="#B388FF"
+                    android:strokeWidth="1.5"/>
+            </group>
+            
+            <!-- Inner ring -->
+            <group android:name="innerGroup"
+                android:pivotX="100"
+                android:pivotY="100">
+                <path
+                    android:pathData="M100,100 m-30,0 a30,30 0,1,1 60,0 a30,30 0,1,1 -60,0"
+                    android:strokeColor="#B388FF"
+                    android:strokeWidth="1"
+                    android:fillColor="#00000000"
+                    android:strokeAlpha="0.6"/>
+            </group>
+            
+            <!-- Outer ring -->
+            <group android:name="outerGroup"
+                android:pivotX="100"
+                android:pivotY="100">
+                <path
+                    android:pathData="M100,100 m-50,0 a50,50 0,1,1 100,0 a50,50 0,1,1 -100,0"
+                    android:strokeColor="#FF6B9D"
+                    android:strokeWidth="1"
+                    android:fillColor="#00000000"
+                    android:strokeAlpha="0.5"/>
+            </group>
+            
+            <!-- Radial threads -->
+            <group android:name="threadsGroup"
+                android:pivotX="100"
+                android:pivotY="100">
+                <path android:pathData="M100,100 L100,50" android:strokeColor="#FF6B9D" android:strokeWidth="1" android:strokeAlpha="0.6"/>
+                <path android:pathData="M100,100 L135,65" android:strokeColor="#B388FF" android:strokeWidth="1" android:strokeAlpha="0.6"/>
+                <path android:pathData="M100,100 L150,100" android:strokeColor="#FF6B9D" android:strokeWidth="1" android:strokeAlpha="0.6"/>
+                <path android:pathData="M100,100 L135,135" android:strokeColor="#B388FF" android:strokeWidth="1" android:strokeAlpha="0.6"/>
+                <path android:pathData="M100,100 L100,150" android:strokeColor="#FF6B9D" android:strokeWidth="1" android:strokeAlpha="0.6"/>
+                <path android:pathData="M100,100 L65,135" android:strokeColor="#B388FF" android:strokeWidth="1" android:strokeAlpha="0.6"/>
+                <path android:pathData="M100,100 L50,100" android:strokeColor="#FF6B9D" android:strokeWidth="1" android:strokeAlpha="0.6"/>
+                <path android:pathData="M100,100 L65,65" android:strokeColor="#B388FF" android:strokeWidth="1" android:strokeAlpha="0.6"/>
+            </group>
+            
+            <!-- Accent dots -->
+            <group android:name="dotsGroup">
+                <path android:pathData="M100,50 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#FF6B9D"/>
+                <path android:pathData="M135,65 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#B388FF"/>
+                <path android:pathData="M150,100 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#FF6B9D"/>
+                <path android:pathData="M135,135 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#B388FF"/>
+                <path android:pathData="M100,150 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#FF6B9D"/>
+                <path android:pathData="M65,135 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#B388FF"/>
+                <path android:pathData="M50,100 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#FF6B9D"/>
+                <path android:pathData="M65,65 m-2,0 a2,2 0,1,1 4,0 a2,2 0,1,1 -4,0" android:fillColor="#B388FF"/>
+            </group>
+            
+        </vector>
+    </aapt:attr>
+    
+    <!-- Center pulse -->
+    <target android:name="centerGroup">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="scaleX"
+                    android:duration="1500"
+                    android:valueFrom="1.0"
+                    android:valueTo="1.4"
+                    android:valueType="floatType"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+                <objectAnimator
+                    android:propertyName="scaleY"
+                    android:duration="1500"
+                    android:valueFrom="1.0"
+                    android:valueTo="1.4"
+                    android:valueType="floatType"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+    
+    <!-- Inner ring pulse -->
+    <target android:name="innerGroup">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="scaleX"
+                    android:duration="2000"
+                    android:valueFrom="1.0"
+                    android:valueTo="1.2"
+                    android:valueType="floatType"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+                <objectAnimator
+                    android:propertyName="scaleY"
+                    android:duration="2000"
+                    android:valueFrom="1.0"
+                    android:valueTo="1.2"
+                    android:valueType="floatType"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+    
+    <!-- Outer ring -->
+    <target android:name="outerGroup">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:propertyName="scaleX"
+                    android:duration="2500"
+                    android:valueFrom="1.0"
+                    android:valueTo="1.15"
+                    android:valueType="floatType"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:startOffset="500"
+                    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+                <objectAnimator
+                    android:propertyName="scaleY"
+                    android:duration="2500"
+                    android:valueFrom="1.0"
+                    android:valueTo="1.15"
+                    android:valueType="floatType"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:startOffset="500"
+                    android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+            </set>
+        </aapt:attr>
+    </target>
+    
+    <!-- Gentle rotation -->
+    <target android:name="threadsGroup">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="rotation"
+                android:duration="15000"
+                android:valueFrom="0"
+                android:valueTo="360"
+                android:valueType="floatType"
+                android:repeatCount="infinite"
+                android:interpolator="@android:anim/linear_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+    <!-- Dots pulse -->
+    <target android:name="dotsGroup">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="alpha"
+                android:duration="1200"
+                android:valueFrom="0.4"
+                android:valueTo="1.0"
+                android:valueType="floatType"
+                android:repeatCount="infinite"
+                android:repeatMode="reverse"
+                android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
+        </aapt:attr>
+    </target>
+    
+</animated-vector>

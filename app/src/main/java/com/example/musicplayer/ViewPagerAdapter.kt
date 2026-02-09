@@ -5,9 +5,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class ViewPagerAdapter(
-    activity: FragmentActivity,
-    private val songs: List<Song>
-) : FragmentStateAdapter(activity) {
+    fragmentActivity: FragmentActivity,
+    private var songs: List<Song>
+) : FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int = 3
 
@@ -18,5 +18,13 @@ class ViewPagerAdapter(
             2 -> FoldersFragment.newInstance()
             else -> SongsFragment.newInstance(songs)
         }
+    }
+    
+    /**
+     * Update the song list and refresh all fragments
+     */
+    fun updateSongs(newSongs: List<Song>) {
+        songs = newSongs
+        notifyDataSetChanged()
     }
 }

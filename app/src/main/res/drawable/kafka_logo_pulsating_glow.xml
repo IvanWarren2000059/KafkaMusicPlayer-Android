@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    
+    <!-- Purple logo with glow - beats on 1 -->
+    <item android:drawable="@drawable/kafka_logo_1_with_glow" android:duration="400"/>
+    
+    <!-- Reddish logo with glow - beats on 2 -->
+    <item android:drawable="@drawable/kafka_logo_2_with_glow" android:duration="400"/>
+    
+    <!-- Light purple logo with glow - beats on 3 -->
+    <item android:drawable="@drawable/kafka_logo_3_with_glow" android:duration="400"/>
+    
+    <!-- Back to reddish for smooth loop - beats on 4 -->
+    <item android:drawable="@drawable/kafka_logo_2_with_glow" android:duration="400"/>
+    
+</animation-list>

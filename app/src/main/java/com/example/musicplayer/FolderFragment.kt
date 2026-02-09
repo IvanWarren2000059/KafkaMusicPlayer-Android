@@ -72,7 +72,7 @@ class FoldersFragment : Fragment() {
         val recyclerView = dialogView.findViewById<RecyclerView>(R.id.folderSongsRecycler)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         
-        val adapter = SongAdapter(songs) { song ->
+        val adapter = SongAdapter(songs.toMutableList()) { song ->
             (activity as? MainActivity)?.playSong(song, false)
         }
         recyclerView.adapter = adapter
